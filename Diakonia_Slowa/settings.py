@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'javascript_settings',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.views.decorators.csrf._EnsureCsrfCookie',
 ]
 
 ROOT_URLCONF = 'Diakonia_Slowa.urls'
@@ -85,7 +87,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
+CSRF_USE_SESSIONS = False
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -130,4 +132,9 @@ TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'javascript_settings.finders.JavascriptSettingsFinder',
 ]
+JAVASCRIPT_SETTINGS_SCAN_MODULES = {
+    'main_app': 'main_app.urls.py'
+}
+

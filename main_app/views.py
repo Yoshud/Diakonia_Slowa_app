@@ -4,6 +4,7 @@ from django.http import Http404
 from django.urls import reverse
 from django.template import loader
 from .models import Product_base, Order_base
+from django.views.generic import TemplateView, View
 
 def main_page(request):
 
@@ -18,12 +19,20 @@ def main_page(request):
             'products': products,
             'orders': orders,
         }
+
+        HttpResponse(template.render(context, request))
     else:
         context = {
           'products': products,
            'orders': orders,
         }
     return HttpResponse(template.render(context, request))
+
+class AjaxView(View):
+    def post(self, request, **kwargs):
+        return HttpResponse('ok')
+
+ajax_view = AjaxView.as_view()
 
 
 def order(request):
