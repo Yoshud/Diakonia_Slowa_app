@@ -1,0 +1,8 @@
+{% if user.is_superuser %}
+
+    Panel zamówienia <br>
+    <a href="{% url 'main_app:pay method' %}">Akceptuj</a>
+
+{% else %}
+    <p><a href= '/admin' >Kliknij by się zalogować</a></p>
+{% endif %}

@@ -1,0 +1,13 @@
+{% if user.is_superuser %}
+    
+    <h1>Wybierz metode płatności</h1>
+    <ul>
+        <li><a href= "{% url 'main_app:in_cash' %}" >Gotówka</a></li>
+        <li><a href= "{% url 'main_app:by_transfer' %}" >Przelewem</a></li>
+        <li>Cofnij(wymaga odzielnego dzialania)</li>
+    </ul>
+
+
+{% else %}
+    <p><a href= '/admin' >Kliknij by się zalogować</a></p>
+{% endif %}

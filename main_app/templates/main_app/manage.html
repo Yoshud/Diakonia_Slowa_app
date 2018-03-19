@@ -1,0 +1,13 @@
+{% if user.is_superuser %}
+
+    <h1>Panel zarzadzania</h1>
+    <ul>
+        <li><a href= '/admin' >Panel administratora</a></li>
+        <li>Zamówienia</li>
+        <li>Dłużnicy</li>
+    </ul>
+
+
+{% else %}
+    <p><a href= '/admin' >Kliknij by się zalogować</a></p>
+{% endif %}

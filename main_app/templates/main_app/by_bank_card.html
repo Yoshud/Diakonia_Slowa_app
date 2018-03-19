@@ -1,0 +1,7 @@
+{% if user.is_superuser %}
+
+    Formularz zaplaty przelewem
+
+{% else %}
+    <p><a href= '/admin' >Kliknij by się zalogować</a></p>
+{% endif %}

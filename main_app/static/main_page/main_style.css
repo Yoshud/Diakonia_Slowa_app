@@ -1,0 +1,9 @@
+
+div table td {
+    border: black;
+    border-style: hidden;
+    margin: 0;
+}
+div form{
+    margin: 0;
+}
