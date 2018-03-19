@@ -1,0 +1,20 @@
+
+div table td {
+    border: black;
+    border-style: hidden;
+    margin: 0;
+}
+div form{
+    margin: 0;
+}
+
+h1 {
+    background: wheat url("images/jerozolima.jpg") top no-repeat;
+    margin: 0;
+    border-width: 0;
+
+}
+h2 {
+    font-family: "Times New Roman";
+    color: wheat;
+}
