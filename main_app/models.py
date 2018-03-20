@@ -10,7 +10,7 @@ from django.utils import timezone
 class Product_base(models.Model):
     product_name = models.CharField("nazwa", max_length=200, default="no_name")
     price = models.DecimalField("cena", max_digits=5, decimal_places=2, default=0.00)
-    quantity = models.IntegerField("Ilość",default = 0);
+    quantity = models.IntegerField("Ilość",default = 0)
     def __str__(self):
         return self.product_name + ' ilosc: ' + str(self.quantity) + " cena: " + str(self.price) + "zł/szt"
 
