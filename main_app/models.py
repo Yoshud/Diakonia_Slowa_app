@@ -2,8 +2,6 @@
 
 # Create your models here.
 
-import datetime
-from django.utils import timezone
 from django.db import models
 from django.utils import timezone
 
@@ -32,6 +30,3 @@ class Debtor_base(models.Model):
     if_settle = models.BooleanField("Czy uregulowane", default= False)
     order = models.OneToOneField(Order_base, on_delete=models.CASCADE, related_name="Debtor")
 
-
-#def fun():
- #   pro = Product_base

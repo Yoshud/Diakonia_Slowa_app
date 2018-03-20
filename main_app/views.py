@@ -1,12 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.http import Http404
-from django.urls import reverse
-from django.template import loader
+from django.shortcuts import render
+from django.http import  JsonResponse
 from .models import Product_base, Order_base
-from django.views.generic import TemplateView, View
-from annoying.decorators import ajax_request
-from django.core import serializers
+from django.views.generic import View
 from django.utils import timezone
 import datetime
 
