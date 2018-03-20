@@ -1,8 +1,5 @@
 {% if user.is_superuser %}
 
-    Panel zamówienia <br>
-    <a href="{% url 'main_app:pay method' %}">Akceptuj</a>
-
     {% load static %}
     {% load javascript_settings_tags %}
     <head>
@@ -13,9 +10,56 @@
 
     <body>
     <div>
+        <h1>
+            <table>
+                <tr>
+                    <td><h2>System obsługi Diakonii Słowa</h2></td>
+                </tr>
+            </table>
+        </h1>
 
-    </div>
+
+            <table style="table-layout: auto; height: 5%;overflow:hidden; border-bottom-style: dotted; border-bottom-width: thin; border-color: black; background: burlywood;">
+                <tr style="height: 5%">
+                    <td style="text-align: center; width: 50%"><input type="search" required="" id="search_value_order" name="search" autofocus  style="width: 85%;"></td>
+                    <td style = "text-align: center;"><input type="button" id="order_accept" value = "Dalej" onclick="fun_submit()"> </td>
+                </tr>
+            </table>
+        <form action={% url "main_app:pay method" %} method="post" id="order_form" style="height: 85%">
+            {%  csrf_token %}
+            <table  style="table-layout: auto; height: 95%;">
+                    <td style="text-align: left; width: 65%;border-right-style: dotted; border-width: thin; border-color: black">
+                        <div >
+                            <table id="product_table" style="table-layout: auto; width: 100%; border-style: solid; border-width: thin;">
+                                <tr>
+                                    <th style="width: 40%">Nazwa</th>
+                                    <th style="width: 10%">Ilość</th>
+                                    <th style="width: 15%">Cena zł/szt</th>
+                                    <th style="width: 10%">Ile</th>
+                                    <th style="width: 15%">Suma</th>
+                                    <th style="width: 10%">Dodaj</th>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="text-align: right; width: 35%; height: 75%">
+                        <div>
+                            <table id = "last_order_table"></table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </div>
     </body>
+    <script>
+        function fun_submit() {
+            document.getElementById("order_form").submit();
+        }
+    </script>
+    {%  block java_script_order_products%}{% endblock %}
+    {%  block java_script_order_busket%}{% endblock %}
 {% else %}
-    <p><a href= '/admin' >Kliknij by się zalogować</a></p>
+    <p><a href='/admin'>Kliknij by się zalogować</a></p>
 {% endif %}

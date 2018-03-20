@@ -19,6 +19,42 @@ function write_main_page_product(table_ID, data) {
     console.log("size: ", table_ref.rows);
 }
 
+function write_order_page_product(table_ID, data) {
+    table_ref = document.getElementById(table_ID);
+    t_delete(table_ref, 1, table_ref.rows.length);
+    if (data.product_name.length < 1 && flag) {
+        alert("Brak produktu o takiej nazwie");
+        flag = false;
+    }
+    else {
+        for (it in data.product_name) {
+            flag = true;
+            var newRow = table_ref.insertRow();
+            newcell(data.product_name[it], newRow);
+            newcell(data.quantity[it], newRow);
+            newcell(data.price[it] + " zł", newRow);
+
+            var cell = newRow.insertCell();
+            var input = document.createElement("INPUT");
+            input.setAttribute("type", "number");
+            input.setAttribute("id", data.pk[it]);
+            input.setAttribute("value", 0);
+            cell.appendChild(input);
+
+            newcell( "oddzielny skrypt", newRow);
+
+
+            cell = newRow.insertCell();
+            Cellstyle(cell);
+            cell.style.textAlign = "center";
+            cell.innerHTML = "<input type='button' value='Dodaj'>";
+            cell.setAttribute("onclick", "add_product_by_id_to_busket ("+data.pk[it]+")");
+        }
+    }
+}
+function add_product_by_id_to_busket(id){
+    console.log(id)
+}
 function t_delete(table_ref, begin, end) {
     for (var it = begin; it < end; it++) {
         table_ref.deleteRow(begin);
@@ -37,5 +73,6 @@ function newcell(text, Row) {
     Cellstyle(newCell);
     var newText = document.createTextNode(text);
     newCell.appendChild(newText)
+    return newCell
 }
 

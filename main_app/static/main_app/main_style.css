@@ -1,5 +1,7 @@
 div table{
+    width: 100%;
     border-spacing: 0;
+    overflow: hidden;
 }
 div form table td
 {
@@ -31,6 +33,16 @@ h1 {
     background: wheat url("images/jerozolima.jpg") top no-repeat;
     margin: 0;
     border-width: 0;
+}
+h1 table {
+    table-layout: auto;
+    height: 15%;
+}
+h1 table tr {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    vertical-align: text-top;
 }
 h2 {
     font-family: "Times New Roman";

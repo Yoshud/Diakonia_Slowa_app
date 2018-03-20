@@ -9,14 +9,17 @@ def products_to_table(products):
     name = []
     price = []
     quantity = []
+    pk = []
     for product in products:
         name.append(product.product_name)
         price.append(product.price)
         quantity.append(product.quantity)
+        pk.append(product.pk)
     return {
         'product_name': name,
         'price': price,
         'quantity': quantity,
+        'pk': pk,
     }
 def sought_products(string):
     products = Product_base.objects.filter(product_name__icontains = string)
@@ -45,7 +48,7 @@ def main_page(request):
 
 class AjaxProductView(View):
     def post(self, request, **kwargs):
-        search_val = request.POST.get('search_value', None)
+        search_val = request.POST.get('search_value', '')
         products = Product_base.objects.order_by('-product_name')
         return JsonResponse(sought_products(search_val))
 
@@ -53,7 +56,7 @@ ajax_product_view = AjaxProductView.as_view()
 
 
 def order(request):
-    return render(request, 'main_app/order.html')
+    return render(request, 'main_app/order_ext.html')
 
 def menage(request):
     return render(request, 'main_app/manage.html')
