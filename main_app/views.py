@@ -46,26 +46,7 @@ def abridged_orders_to_table():
 
 
 def main_page(request):
-
-    products = Product_base.objects.order_by('-product_name')
-    orders = Order_base.objects.order_by('-date')
-    template = loader.get_template('main_app/main_page_products.html')
-
-    if request.POST:
-        it = str(request.POST['search'])
-        products = Product_base.objects.filter(product_name__contains=it)
-        context = {
-            'products': products,
-            'orders': orders,
-        }
-
-        HttpResponse(template.render(context, request))
-    else:
-        context = {
-          'products': products,
-           'orders': orders,
-        }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'main_app/main_page_products.html')
 
 class AjaxProductView(View):
     def post(self, request, **kwargs):

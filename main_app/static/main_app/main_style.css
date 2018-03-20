@@ -3,6 +3,7 @@ div table td {
     border: black;
     border-style: hidden;
     margin: 0;
+    border-spacing: 0;
 }
 div form{
     margin: 0;
@@ -17,4 +18,7 @@ h1 {
 h2 {
     font-family: "Times New Roman";
     color: wheat;
+}
+div table div th {
+    border-left-style: solid ;border-bottom-style: solid ;border-left-width: thin ;border-bottom-width: medium;
 }

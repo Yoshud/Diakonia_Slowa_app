@@ -14,7 +14,32 @@
                 type: "POST",
                 data: {"search_value": tmp},
                 success: function (data) {
-                    console.log(data.product_name)
+                    console.log(data.product_name);
+                    write_main_page_product("product_table", data);
+                },
+
+
+                beforeSend: function (xhr, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
+                    }
+                }
+            });
+        }
+        );
+        $(document).ready(
+            function post(){
+            var tmp = $("#search_value").val();
+            console.log(tmp);
+            $.ajax({
+                url: {% url 'main_app:ajax-product-view' %},
+                cache: false,
+                type: "POST",
+                data: {"search_value": tmp},
+                success: function (data) {
+                    console.log(data.product_name);
+                    write_main_page_product("product_table", data);
                 },
 
 
