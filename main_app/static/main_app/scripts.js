@@ -1,4 +1,5 @@
 
+
 function write_main_page_product(table_ID, data) {
     table_ref = document.getElementById(table_ID);
     console.log("write: ", data.product_name);
@@ -36,6 +37,7 @@ function write_order_page_product(table_ID, data) {
 
             cell = newRow.insertCell();
             cell.setAttribute("onchange", "update_sum ("+data.pk[it]+","+data.price[it]+")");
+
             Cellstyle(cell);
             var input = document.createElement("INPUT");
             input.setAttribute("type", "number");
@@ -53,6 +55,7 @@ function write_order_page_product(table_ID, data) {
             cell = newRow.insertCell();
             Cellstyle(cell);
             cell.setAttribute("id", "sum_"+ data.pk[it]);
+            cell.innerHTML = "0zł";
 
             cell = newRow.insertCell();
             Cellstyle(cell);
