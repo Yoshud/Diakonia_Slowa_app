@@ -32,17 +32,19 @@ function write_order_page_product(table_ID, data) {
             var newRow = table_ref.insertRow();
             newcell(data.product_name[it], newRow);
             newcell(data.quantity[it], newRow);
-            newcell(data.price[it] + " zł", newRow);
+            var cell = newcell(data.price[it] + " zł", newRow);
 
-            var cell = newRow.insertCell();
+            cell = newRow.insertCell();
             var input = document.createElement("INPUT");
             input.setAttribute("type", "number");
-            input.setAttribute("id", data.pk[it]);
+            input.setAttribute("id", "number_"+data.pk[it]);
+            cell.setAttribute("onchange", "update_sum ("+data.pk[it]+","+data.price[it]+")");
             input.setAttribute("value", 0);
             cell.appendChild(input);
 
-            newcell( "oddzielny skrypt", newRow);
-
+            cell = newRow.insertCell();
+            Cellstyle(cell);
+            cell.setAttribute("id", "sum_"+ data.pk[it]);
 
             cell = newRow.insertCell();
             Cellstyle(cell);
@@ -54,6 +56,12 @@ function write_order_page_product(table_ID, data) {
 }
 function add_product_by_id_to_busket(id){
     console.log(id)
+}
+function update_sum(id, price){
+    var how_many = $("#number_"+id ).val();
+    console.log(how_many);
+    var cell_ref = document.getElementById("sum_"+id);
+    cell_ref.innerText = how_many * price+ "zł";
 }
 function t_delete(table_ref, begin, end) {
     for (var it = begin; it < end; it++) {
