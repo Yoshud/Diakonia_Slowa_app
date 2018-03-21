@@ -64,6 +64,7 @@ function write_order_page_product(table_ID, data) {
         }
     }
 }
+
 function validate_number_count(number_tag, id, max_quantity){
     var number_ref = $("#"+number_tag +id);
     var how_many = number_ref.val();
@@ -75,11 +76,12 @@ function validate_number_count(number_tag, id, max_quantity){
             alert("Przkroczono ilość na magazynie. Ustawiona zostaje maksymalna dostępna ilość")
         }
 }
-function update_sum(id, price, max_quantity){
-    validate_number_count("number_", id, max_quantity);
-    var how_many = $("#number_"+id ).val();
+
+function update_sum(id, price, max_quantity, number_tag = "number_", sum_tag = "sum_"){
+    validate_number_count(number_tag, id, max_quantity);
+    var how_many = $("#"+number_tag+id ).val();
     console.log(how_many);
-    var cell_ref = document.getElementById("sum_"+id);
+    var cell_ref = document.getElementById(sum_tag+id);
     cell_ref.innerText = how_many * price+ "zł";
 }
 function t_delete(table_ref, begin, end) {
