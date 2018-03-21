@@ -1,5 +1,4 @@
 
-
 function write_main_page_product(table_ID, data) {
     table_ref = document.getElementById(table_ID);
     console.log("write: ", data.product_name);
@@ -36,7 +35,7 @@ function write_order_page_product(table_ID, data) {
             var cell = newcell(data.price[it] + " zł", newRow);
 
             cell = newRow.insertCell();
-            cell.setAttribute("onchange", "update_sum ("+data.pk[it]+","+data.price[it]+")");
+            cell.setAttribute("onchange", "update_sum ("+data.pk[it]+","+data.price[it]+","+ data.quantity[it] +")");
 
             Cellstyle(cell);
             var input = document.createElement("INPUT");
@@ -61,17 +60,24 @@ function write_order_page_product(table_ID, data) {
             Cellstyle(cell);
             cell.style.textAlign = "center";
             cell.innerHTML = "<input type='button' value='Dodaj'>";
-            cell.setAttribute("onclick", "add_product_by_id_to_busket ("+data.pk[it]+")");
+            cell.setAttribute("onclick", "add_product_by_id_to_busket (" + data.pk[it]+ ','+ "\""+data.product_name[it]+ "\"" + ")");
         }
     }
 }
-function add_product_by_id_to_busket(id){
-    console.log(id)
+function validate_number_count(number_tag, id, max_quantity){
+    var number_ref = $("#"+number_tag +id);
+    var how_many = number_ref.val();
+
+    if(number_ref.val().trim().length === 0){
+        number_ref.val(0);}
+        if(how_many > max_quantity) {
+            number_ref.val(max_quantity);
+            alert("Przkroczono ilość na magazynie. Ustawiona zostaje maksymalna dostępna ilość")
+        }
 }
-function update_sum(id, price){
+function update_sum(id, price, max_quantity){
+    validate_number_count("number_", id, max_quantity);
     var how_many = $("#number_"+id ).val();
-    if($("#number_"+id ).val().trim().length === 0){
-        $("#number_"+id ).val(0);}
     console.log(how_many);
     var cell_ref = document.getElementById("sum_"+id);
     cell_ref.innerText = how_many * price+ "zł";
