@@ -37,7 +37,6 @@ function write_order_page_product(table_ID, data) {
             cell = newRow.insertCell();
             cell.setAttribute("onchange", "update_sum ("+data.pk[it]+","+data.price[it]+")");
             Cellstyle(cell);
-            "zawartosc"
             var input = document.createElement("INPUT");
             input.setAttribute("type", "number");
             input.setAttribute("id", "number_"+data.pk[it]);
@@ -68,6 +67,8 @@ function add_product_by_id_to_busket(id){
 }
 function update_sum(id, price){
     var how_many = $("#number_"+id ).val();
+    if($("#number_"+id ).val().trim().length === 0){
+        $("#number_"+id ).val(0);}
     console.log(how_many);
     var cell_ref = document.getElementById("sum_"+id);
     cell_ref.innerText = how_many * price+ "zł";
