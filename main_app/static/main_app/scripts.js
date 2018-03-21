@@ -35,11 +35,20 @@ function write_order_page_product(table_ID, data) {
             var cell = newcell(data.price[it] + " zł", newRow);
 
             cell = newRow.insertCell();
+            cell.setAttribute("onchange", "update_sum ("+data.pk[it]+","+data.price[it]+")");
+            Cellstyle(cell);
+            "zawartosc"
             var input = document.createElement("INPUT");
             input.setAttribute("type", "number");
             input.setAttribute("id", "number_"+data.pk[it]);
-            cell.setAttribute("onchange", "update_sum ("+data.pk[it]+","+data.price[it]+")");
             input.setAttribute("value", 0);
+            input.setAttribute("min", 0);
+            input.setAttribute("max", data.quantity[it]);
+            input.setAttribute("required", "");
+            input.style.width = "100%";
+            input.style.height = "100%";
+            input.style.padding = 0;
+            input.style.border = 0;
             cell.appendChild(input);
 
             cell = newRow.insertCell();
