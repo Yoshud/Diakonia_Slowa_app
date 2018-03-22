@@ -8,7 +8,6 @@ class basket_class {
             "price": [],
         }
     }
-
     add_product(product_name, id, quantity, price) {
         this.diction["product_name"].push(product_name);
         this.diction["id"].push(id);
