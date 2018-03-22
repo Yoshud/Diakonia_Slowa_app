@@ -15,9 +15,17 @@ div form table th{
     height: 1%;
 }
 div form table td div{
+
+}
+div table div {
     width: 100%;
     height: 100%;
     overflow-x: scroll;
+    overflow-y: hidden;
+}
+div table div h2 {
+    font-family: "Times New Roman";
+    color: blue;
 }
 div table td {
     border: black;

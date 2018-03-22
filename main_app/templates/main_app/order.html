@@ -30,7 +30,7 @@
             <table  style="table-layout: auto; height: 95%;">
                     <td style="text-align: left; width: 60%;border-right-style: dotted; border-width: thin; border-color: black">
                         <div >
-                            <table id="product_table" style="table-layout: auto; width: 100%; border-style: solid; border-width: thin;">
+                            <table id="product_table" style="table-layout: auto; width: 100%; border-bottom-style: solid; border-width: thin;">
                                 <tr>
                                     <th style="width: 40%">Nazwa</th>
                                     <th style="width: 10%">Ilość</th>
@@ -45,7 +45,24 @@
                     </td>
                     <td style="text-align: right; width: 40%;">
                         <div>
-                            <table id = "last_order_table"></table>
+                            <table style="text-align: center; border-bottom-style: solid; border-width: medium; border-color: black">
+                                <tr>
+                                    <td>
+                                        <h2>Koszyk</h2>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table id = "busket_table" style="table-layout: auto; width: 100%; border-bottom-style: solid; border-width: thin;">
+
+                                <tr>
+                                    <th style="width: 50%">Nazwa</th>
+                                    <th style="width: 15%">Ilość</th>
+                                    <th style="width: 20%">Suma</th>
+                                    <th style="width: 15%">Edytuj</th>
+                                 </tr>
+                                <tr> <td style="text-align: end">Koszyk jest aktualnie pusty</td></tr>
+                            </table>
+
                         </div>
                     </td>
                 </tr>
