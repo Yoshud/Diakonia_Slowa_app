@@ -5,7 +5,13 @@
     <script src={% static 'main_app/busket_scripts.js' %}></script>
     <script src={% static 'main_app/scripts.js' %}></script>
     <script>
-
+        class Data_class{
+        constructor(){}
+        set(data){
+            this.data = data;
+        }
+}
+let data_obj = new Data_class();
         $("#search_value_order").keyup(
             function post() {
                 var tmp = $("#search_value_order").val();
@@ -16,8 +22,10 @@
                     type: "POST",
                     data: {"search_value": tmp},
                     success: function (data) {
-                        console.log(data.product_name);
-                        write_order_page_product("product_table", data);
+                        //console.log(data.product_name);
+                        data_obj.set(data);
+                        console.log(data_obj.data);
+                        write_order_page_product("product_table");
                     },
 
 
@@ -39,8 +47,8 @@
                     type: "POST",
                     data: {"search_value": tmp},
                     success: function (data) {
-                        console.log(data.product_name);
-                        write_order_page_product("product_table", data);
+                        data_obj.set(data);
+                        write_order_page_product("product_table");
                     },
 
 
