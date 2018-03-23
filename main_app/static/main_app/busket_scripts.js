@@ -8,6 +8,7 @@ class basket_class {
             "price": [],
         }
     }
+
     add_product(product_name, id, quantity, price) {
         this.diction["product_name"].push(product_name);
         this.diction["id"].push(id);
@@ -37,7 +38,7 @@ function add_product_by_id_to_busket(id, product_name, price, table_ID, data, nu
     console.log(id, product_name, number_ref.val(), price * quantity);
     basket.fun();
     if (quantity > 0) {
-        if(basket.diction["id"].indexOf(parseInt(id)) === -1) {
+        if (basket.diction["id"].indexOf(parseInt(id)) === -1) {
             basket.add_product(product_name, parseInt(id), quantity, price);
             write_busket_table("busket_table", basket.diction, price * quantity);
             write_order_page_product();
@@ -73,9 +74,11 @@ function write_order_page_product(table_ID = "product_table") {
     if (data !== undefined) {
         table_ref = document.getElementById(table_ID);
         t_delete(table_ref, 1, table_ref.rows.length);
-        if (data.product_name.length < 1 && flag) {
-            alert("Brak produktu o takiej nazwie");
-            flag = false;
+        if ((data.product_name.length < 1)) {
+            if (flag === true) {
+                alert("Brak produktu o takiej nazwie");
+                flag = false;
+            }
         }
         else {
             flag = true;

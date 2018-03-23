@@ -1,19 +1,18 @@
-
 {% extends "main_app/order.html" %}
 {% block java_script_order_products %}
     {% load static %}
     <script src={% static 'main_app/busket_scripts.js' %}></script>
     <script src={% static 'main_app/scripts.js' %}></script>
     <script>
-        class Data_class{
-        constructor(){}
-        set(data){
-            this.data = data;
+        class Data_class {
+            constructor() {
+            }
+
+            set(data) {
+                this.data = data;
+            }
         }
-}
-let data_obj = new Data_class();
-        $("#search_value_order").keyup(
-            function post() {
+        function post() {
                 var tmp = $("#search_value_order").val();
                 console.log(tmp);
                 $.ajax({
@@ -37,30 +36,9 @@ let data_obj = new Data_class();
                     }
                 });
             }
-        );
-        $(document).ready(
-            function post() {
-                var tmp = $("#search_value_order").val();
-                $.ajax({
-                    url: {% url 'main_app:ajax-product-view' %},
-                    cache: false,
-                    type: "POST",
-                    data: {"search_value": tmp},
-                    success: function (data) {
-                        data_obj.set(data);
-                        write_order_page_product("product_table");
-                    },
-
-
-                    beforeSend: function (xhr, settings) {
-                        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                            // Only send the token to relative URLs i.e. locally.
-                            xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
-                        }
-                    }
-                });
-            }
-        );
+        let data_obj = new Data_class();
+        $("#search_value_order").on('input', post);
+        $(document).ready(post);
     </script>
 
 {% endblock %}

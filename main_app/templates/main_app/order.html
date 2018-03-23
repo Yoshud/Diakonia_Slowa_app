@@ -1,5 +1,5 @@
 {% if user.is_superuser %}
-
+<div id="main_div">
     {% load static %}
     {% load javascript_settings_tags %}
     <head>
@@ -21,8 +21,10 @@
 
             <table style="table-layout: auto; height: 5%;overflow:hidden; border-bottom-style: dotted; border-bottom-width: thin; border-color: black; background: burlywood;">
                 <tr style="height: 5%">
+                    {% block pay_method_template_script %}{% endblock %}
                     <td style="text-align: center; width: 50%"><input type="search" required="" id="search_value_order" name="search" placeholder="Szukaj" autofocus  style="width: 85%;"></td>
-                    <td style = "text-align: center;"><input type="button" id="order_accept" value = "Dalej" onclick="fun_submit()"> </td>
+                    <td style = "text-align: center;"><input type="button" id="order_accept" value = "Dalej" onclick="to_pay_method()"> </td>
+
                 </tr>
             </table>
         <form action={% url "main_app:pay method" %} method="post" id="order_form" style="height: 85%">
@@ -77,6 +79,7 @@
     </script>
     {%  block java_script_order_products%}{% endblock %}
     {%  block java_script_order_busket%}{% endblock %}
+</div>
 {% else %}
     <p><a href='/admin'>Kliknij by się zalogować</a></p>
 {% endif %}

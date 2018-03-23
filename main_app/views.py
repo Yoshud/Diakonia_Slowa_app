@@ -56,7 +56,7 @@ ajax_product_view = AjaxProductView.as_view()
 
 
 def order(request):
-    return render(request, 'main_app/order_ext.html')
+    return render(request, 'main_app/pay_method.html')
 
 def menage(request):
     return render(request, 'main_app/manage.html')

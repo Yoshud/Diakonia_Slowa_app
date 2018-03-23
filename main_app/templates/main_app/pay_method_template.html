@@ -1,0 +1,17 @@
+
+{% extends 'main_app/pay_method.html' %}
+
+{% block pay_method_template %}
+    "<h1>Wybierz metode płatności</h1> " + ""
++"<ul>"
+    <li>Gotówka</li>
+    " +
+    "
+    <li>>Przelewem {% url 'main_app:order' %}</li>
+    " +
+    "
+    <li>Cofnij(wymaga odzielnego dzialania)</li>
+    " +
+    "
+</ul>" ;
+    {% endblock %}

@@ -3,10 +3,12 @@ function write_main_page_product(table_ID, data) {
     table_ref = document.getElementById(table_ID);
     console.log("write: ", data.product_name);
     t_delete(table_ref, 1, table_ref.rows.length);
-    if (data.product_name.length < 1 && flag) {
-        alert("Brak produktu o takiej nazwie");
-        flag = false;
-    }
+    if ((data.product_name.length < 1)) {
+            if (flag === true) {
+                alert("Brak produktu o takiej nazwie");
+                flag = false;
+            }
+        }
     else {
         for (it in data.product_name) {
             flag = true;

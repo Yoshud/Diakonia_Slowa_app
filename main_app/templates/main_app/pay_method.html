@@ -1,13 +1,17 @@
-{% if user.is_superuser %}
-    
-    <h1>Wybierz metode płatności</h1>
-    <ul>
-        <li><a href= "{% url 'main_app:in_cash' %}" >Gotówka</a></li>
-        <li><a href= "{% url 'main_app:by_transfer' %}" >Przelewem</a></li>
-        <li>Cofnij(wymaga odzielnego dzialania)</li>
-    </ul>
+{%  extends 'main_app/order_ext.html' %}
+{% block  pay_method_template_script %}
 
+{% if user.is_superuser %}
+
+    <script>
+    function to_pay_method() {
+        console.log("to pay");
+        document.getElementById("main_div").innerHTML =  "{%  block pay_method_template %}{% endblock %}";
+    }
+
+</script>
 
 {% else %}
     <p><a href= '/admin' >Kliknij by się zalogować</a></p>
 {% endif %}
+{% endblock %}
