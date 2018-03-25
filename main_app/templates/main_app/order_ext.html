@@ -1,9 +1,11 @@
 {% extends "main_app/order.html" %}
 {% block java_script_order_products %}
     {% load static %}
+    <script src={% static 'main_app/basket.js' %}></script>
     <script src={% static 'main_app/busket_scripts.js' %}></script>
     <script src={% static 'main_app/scripts.js' %}></script>
     <script>
+        //*************Zmienna globalna używana też w pliku BUSKET_SCRIPT opakowane w klase dla ew. przyszłego rozwoju!!!!***********************
         class Data_class {
             constructor() {
             }
@@ -12,33 +14,38 @@
                 this.data = data;
             }
         }
-        function post() {
-                var tmp = $("#search_value_order").val();
-                console.log(tmp);
-                $.ajax({
-                    url: {% url 'main_app:ajax-product-view' %},
-                    cache: false,
-                    type: "POST",
-                    data: {"search_value": tmp},
-                    success: function (data) {
-                        //console.log(data.product_name);
-                        data_obj.set(data);
-                        console.log(data_obj.data);
-                        write_order_page_product("product_table");
-                    },
 
-
-                    beforeSend: function (xhr, settings) {
-                        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                            // Only send the token to relative URLs i.e. locally.
-                            xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
-                        }
-                    }
-                });
-            }
         let data_obj = new Data_class();
+        //*******************************************Funkcje i eventy****************************************************
         $("#search_value_order").on('input', post);
         $(document).ready(post);
+
+        ///funkcja wysyłająca zapytania ajax do bazy w celu pobrania danych na podstawie wyszukiwania a nastepnie wywołująca rysowanie odpowiednich tabelek
+        function post() {
+            var tmp = $("#search_value_order").val();
+            console.log(tmp);
+            $.ajax({
+                url: {% url 'main_app:ajax-product-view' %},
+                cache: false,
+                type: "POST",
+                data: {"search_value": tmp},
+                success: function (data) {
+                    //console.log(data.product_name);
+                    data_obj.set(data);
+                    console.log(data_obj.data);
+                    write_order_page_product("product_table");
+                },
+
+
+                beforeSend: function (xhr, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
+                    }
+                }
+            });
+        }
+
     </script>
 
 {% endblock %}

@@ -1,82 +1,21 @@
-class basket_class {
-
-    constructor() {
-        this.diction = {
-            "product_name": [],
-            "id": [],
-            "quantity": [],
-            "price": [],
-        }
-    }
-
-    storage_set_item(nazwa) {
-        sessionStorage.setItem(nazwa, JSON.stringify(this.diction[nazwa]));
-    }
-
-    storage_get_item(nazwa) {
-
-        let tmp = sessionStorage.getItem(nazwa);
-        if (tmp !== null) {
-            console.log(tmp);
-            let el = $.parseJSON(tmp);
-            console.log("set_item, ", nazwa ,el);
-            if (nazwa === "quantity" || nazwa==="id") {
-                for (let it in el) {
-                    el[it] = parseInt(el[it]);
-                }
-            }
-
-            this.diction[nazwa] = el;
-            //console.log(this.diction[nazwa]);
-        }
-        else this.reset();
-
-    }
-
-    save_to_storage() {
-        this.storage_set_item("product_name");
-        this.storage_set_item("id");
-        this.storage_set_item("quantity");
-        this.storage_set_item("price");
-    }
-
-    load_from_storage() {
-        this.storage_get_item("product_name");
-        this.storage_get_item("id");
-        this.storage_get_item("quantity");
-        this.storage_get_item("price");
-    }
-
-    add_product(product_name, id, quantity, price) {
-        this.diction["product_name"].push(product_name);
-        this.diction["id"].push(id);
-        this.diction["quantity"].push(quantity);
-        this.diction["price"].push(price);
-    }
-
-    reset() {
-        this.diction["product_name"] = [];
-        this.diction["id"] = [];
-        this.diction["quantity"] = [];
-        this.diction["price"] = [];
-    }
-
-    fun() {
-        console.log(this.diction["id"]);
-    }
-}
-
+// **************************************zmienne globalne*********************************************
 let basket;
 if (basket === undefined) {
     basket = new basket_class();
     //console.log(basket);
 }
+// data jest zadeklarowana i zdefiniowana w pliku order_ext
+
+//******************************funkcje ustawiające zmienne przy uruchomieniu pliku***************************
 $(document).ready(function () {
 
     basket.load_from_storage();
     write_busket_table("busket_table", basket.diction);
 });
 
+//*********************************Właściwe funkcje*****************************
+
+///funkcja dodaje produkt do koszyka uruchomiana przy kliknięciu przycisku
 function add_product_by_id_to_busket(id, product_name, price, number_tag = "number_") {
     //localStorage.clear();
     basket.load_from_storage();
@@ -100,7 +39,9 @@ function add_product_by_id_to_busket(id, product_name, price, number_tag = "numb
     basket.save_to_storage();
 }
 
+//********************************Funkcje rysujące tabelki, odpowiednio koszyka i produktów*****************************
 
+///Rysuje tabelke koszyka
 function write_busket_table(table_ID, data) {
     table_ref = document.getElementById(table_ID);
     t_delete(table_ref, 1, table_ref.rows.length);
@@ -122,7 +63,7 @@ function write_busket_table(table_ID, data) {
     }
 }
 
-
+///Rysuje tabelkę zamówinia
 function write_order_page_product(table_ID = "product_table") {
     console.log(data_obj);
     let data = data_obj.data;

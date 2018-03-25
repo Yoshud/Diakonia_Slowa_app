@@ -3,6 +3,11 @@
     {% load static %}
     <script src={%  static 'main_app/scripts.js' %}></script>
     <script>
+        //eventy podczas których wywołujemy zapytanie ajax
+        $("#search_value").on('input', post);
+        $(document).ready(post);
+
+        ///funkcja wysyłająca zapytania ajax do bazy w celu pobrania danych na podstawie wyszukiwania a nastepnie wywołująca rysowanie odpowiednich tabelek
         function post(){
             var tmp = $("#search_value").val();
             console.log(tmp);
@@ -25,8 +30,6 @@
                 }
             });
         }
-        $("#search_value").on('input', post);
-        $(document).ready(post);
     </script>
 
 {% endblock %}
