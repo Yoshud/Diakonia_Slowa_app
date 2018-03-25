@@ -5,6 +5,7 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script src={% static 'main_app/basket.js' %}></script>
 
         <link rel="stylesheet" type="text/css" href="{% static 'main_app/main_style.css' %}"/>
     </head>
@@ -25,6 +26,7 @@
                     {% block pay_method_template_script %}{% endblock %}
                     <td style="text-align: center; width: 50%"><input type="search" required="" id="search_value_order" name="search" placeholder="Szukaj" autofocus  style="width: 85%;"></td>
                     <td style = "text-align: center;"><input type="button" id="order_accept" value = "Dalej" onclick=window.open("{% url 'main_app:pay method' %}","_self")> </td>
+                    <td><input type="button" id="basket_clear_button" value = "Wyczyść koszyk" onclick=basket_class.clear_storage()></td>
 
                 </tr>
             </table>

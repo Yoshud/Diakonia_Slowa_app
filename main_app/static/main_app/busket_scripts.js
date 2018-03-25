@@ -8,12 +8,16 @@ if (basket === undefined) {
 
 //******************************funkcje ustawiające zmienne przy uruchomieniu pliku***************************
 $(document).ready(function () {
-    if(basket.load_from_storage()===1) {
-        basket.load_from_storage();
+    if (basket.load_from_storage() === 1) {
         write_busket_table("busket_table", basket.diction);
     }
 });
 
+document.getElementById("basket_clear_button").addEventListener('click', function () {
+    basket.reset();
+    write_order_page_product();
+    write_busket_table("busket_table", basket.diction);
+});
 //*********************************Właściwe funkcje*****************************
 
 ///funkcja dodaje produkt do koszyka uruchomiana przy kliknięciu przycisku
@@ -68,6 +72,7 @@ function write_busket_table(table_ID, data) {
 function write_order_page_product(table_ID = "product_table") {
     console.log(data_obj);
     let data = data_obj.data;
+    console.log(data);
     if (data !== undefined) {
         table_ref = document.getElementById(table_ID);
         t_delete(table_ref, 1, table_ref.rows.length);
