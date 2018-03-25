@@ -9,6 +9,44 @@ class basket_class {
         }
     }
 
+    storage_set_item(nazwa) {
+        sessionStorage.setItem(nazwa, JSON.stringify(this.diction[nazwa]));
+    }
+
+    storage_get_item(nazwa) {
+
+        let tmp = sessionStorage.getItem(nazwa);
+        if (tmp !== undefined) {
+            console.log(tmp);
+            let el = $.parseJSON(tmp);
+            console.log("set_item, ", nazwa ,el);
+            if (nazwa === "quantity" || nazwa==="id") {
+                for (let it in el) {
+                    el[it] = parseInt(el[it]);
+                }
+            }
+
+            this.diction[nazwa] = el;
+            //console.log(this.diction[nazwa]);
+        }
+        else this.reset();
+
+    }
+
+    save_to_storage() {
+        this.storage_set_item("product_name");
+        this.storage_set_item("id");
+        this.storage_set_item("quantity");
+        this.storage_set_item("price");
+    }
+
+    load_from_storage() {
+        this.storage_get_item("product_name");
+        this.storage_get_item("id");
+        this.storage_get_item("quantity");
+        this.storage_get_item("price");
+    }
+
     add_product(product_name, id, quantity, price) {
         this.diction["product_name"].push(product_name);
         this.diction["id"].push(id);
@@ -28,25 +66,42 @@ class basket_class {
     }
 }
 
+let basket;
+if (basket === undefined) {
+    basket = new basket_class();
+    //console.log(basket);
+}
+$(document).ready(function () {
 
-let basket = new basket_class();
+    basket.load_from_storage();
+    write_busket_table("busket_table", basket.diction);
+});
 
-function add_product_by_id_to_busket(id, product_name, price, table_ID, data, number_tag = "number_") {
-
+function add_product_by_id_to_busket(id, product_name, price, number_tag = "number_") {
+    //localStorage.clear();
+    basket.load_from_storage();
     let number_ref = $("#" + number_tag + id);
     let quantity = number_ref.val();
-    console.log(id, product_name, number_ref.val(), price * quantity);
+    console.log(id, product_name, quantity, price * quantity);
+
+    //basket.reset();
+
+    // basket.reset();
+    //basket.load_from_storage();
     basket.fun();
     if (quantity > 0) {
+        console.log(basket.diction["id"], id, basket.diction["id"].indexOf(parseInt(id)));
         if (basket.diction["id"].indexOf(parseInt(id)) === -1) {
             basket.add_product(product_name, parseInt(id), quantity, price);
-            write_busket_table("busket_table", basket.diction, price * quantity);
+            write_busket_table("busket_table", basket.diction);
             write_order_page_product();
         }
     }
+    basket.save_to_storage();
 }
 
-function write_busket_table(table_ID, data, sum) {
+
+function write_busket_table(table_ID, data) {
     table_ref = document.getElementById(table_ID);
     t_delete(table_ref, 1, table_ref.rows.length);
     for (it in data["product_name"]) {
@@ -82,11 +137,9 @@ function write_order_page_product(table_ID = "product_table") {
         }
         else {
             flag = true;
-            let id_it = 0;
             for (it in data.product_name) {
                 if ((basket.diction["id"].indexOf(data.pk[it])) === -1) {
-                    console.log(basket.diction["id"].indexOf(data.pk[it]), basket.diction["id"], data.pk[it]);
-                    //  if (restricted_id.indexOf(data.pk[it]) == -1) {
+                    //console.log(basket.diction["id"].indexOf(data.pk[it]), basket.diction["id"], data.pk[it]);
                     let newRow = table_ref.insertRow();
                     newcell(data.product_name[it], newRow);
                     newcell(data.quantity[it], newRow);
@@ -121,11 +174,8 @@ function write_order_page_product(table_ID = "product_table") {
                     cell.dataset.pk = data.pk[it];
                     cell.dataset.product_name = data.product_name[it];
                     cell.dataset.price = data.price[it];
-                    cell.dataset.table_ID = table_ID;
-                    console.log(data);
                     cell.addEventListener('click', function () {
-                        console.log(this.dataset.data);
-                        add_product_by_id_to_busket(this.dataset.pk, this.dataset.product_name, this.dataset.price, this.dataset.tableID, this.dataset.data);
+                        add_product_by_id_to_busket(this.dataset.pk, this.dataset.product_name, this.dataset.price);
                     });
                 }
             }
