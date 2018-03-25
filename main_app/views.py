@@ -63,6 +63,8 @@ def menage(request):
 
 def calculator(request):
     return render(request, 'main_app/calculator.html')
+def bank_card(request):
+    return render(request, 'main_app/by_bank_card.html')
 
 def pay_method(request):
     return render(request, 'main_app/pay_method.html')

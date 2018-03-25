@@ -16,7 +16,7 @@ class basket_class {
     storage_get_item(nazwa) {
 
         let tmp = sessionStorage.getItem(nazwa);
-        if (tmp !== undefined) {
+        if (tmp !== null) {
             console.log(tmp);
             let el = $.parseJSON(tmp);
             console.log("set_item, ", nazwa ,el);

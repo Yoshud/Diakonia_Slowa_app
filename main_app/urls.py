@@ -8,6 +8,6 @@ urlpatterns = [
     path('manage', views.menage, name='manage'),
     path('order/pay_method', views.pay_method, name='pay method'),
     path('order/pay_method/calculator', views.calculator, name='in_cash'),
-    path('order/pay_method/by_bank_card', views.calculator, name='by_transfer'),
+    path('order/pay_method/by_bank_card', views.bank_card, name='by_transfer'),
     re_path(r'^ajax/$', views.ajax_product_view, name='ajax-product-view'),
 ]
