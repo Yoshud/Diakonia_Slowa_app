@@ -16,7 +16,7 @@ $(document).ready(function () {
 document.getElementById("basket_clear_button").addEventListener('click', function () {
     basket.reset();
     write_order_page_product();
-    write_busket_table("busket_table", basket.diction);
+    write_empty_basket_table();
 });
 //*********************************Właściwe funkcje*****************************
 
@@ -48,7 +48,7 @@ function add_product_by_id_to_busket(id, product_name, price, number_tag = "numb
 
 ///Rysuje tabelke koszyka
 function write_busket_table(table_ID, data) {
-    table_ref = document.getElementById(table_ID);
+    let table_ref = document.getElementById(table_ID);
     t_delete(table_ref, 1, table_ref.rows.length);
     for (it in data["product_name"]) {
         let newRow = table_ref.insertRow();
@@ -57,7 +57,6 @@ function write_busket_table(table_ID, data) {
 
 
         let cell = newcell((data["quantity"][it] * data["price"][it]) + "zł", newRow);
-        Cellstyle(cell);
         cell.setAttribute("id", "sum_" + data["id"][it]);
 
         cell = newRow.insertCell();
@@ -68,13 +67,27 @@ function write_busket_table(table_ID, data) {
     }
 }
 
+function write_empty_basket_table(table_ID = "busket_table")
+{
+    let table_ref = document.getElementById(table_ID);
+    t_delete(table_ref, 1, table_ref.rows.length);
+    let cell;
+    let newRow = table_ref.insertRow();
+    cell = newRow.insertCell();
+    let text = document.createTextNode("Koszyk jest aktualnie pusty");
+    cell.style.textAlign = "right";
+    cell.appendChild(text);
+    cell = newRow.insertCell();
+    cell = newRow.insertCell();
+    cell = newRow.insertCell();
+}
 ///Rysuje tabelkę zamówinia
 function write_order_page_product(table_ID = "product_table") {
     console.log(data_obj);
     let data = data_obj.data;
     console.log(data);
     if (data !== undefined) {
-        table_ref = document.getElementById(table_ID);
+        let table_ref = document.getElementById(table_ID);
         t_delete(table_ref, 1, table_ref.rows.length);
         if ((data.product_name.length < 1)) {
             if (flag === true) {
@@ -88,13 +101,13 @@ function write_order_page_product(table_ID = "product_table") {
                 if ((basket.diction["id"].indexOf(data.pk[it])) === -1) {
                     //console.log(basket.diction["id"].indexOf(data.pk[it]), basket.diction["id"], data.pk[it]);
                     let newRow = table_ref.insertRow();
+
                     newcell(data.product_name[it], newRow);
                     newcell(data.quantity[it], newRow);
-                    let cell = newcell(data.price[it] + " zł", newRow);
+                    newcell(data.price[it] + " zł", newRow);
 
-                    cell = newRow.insertCell();
+                    let cell = newRow.insertCell();
                     cell.setAttribute("onchange", "update_sum (" + data.pk[it] + "," + data.price[it] + "," + data.quantity[it] + ")");
-
                     Cellstyle(cell);
                     let input = document.createElement("INPUT");
                     input.setAttribute("type", "number");
