@@ -14,24 +14,33 @@ class basket_class {
         sessionStorage.setItem(nazwa, JSON.stringify(this.diction[nazwa]));
     }
 
-    storage_get_item(nazwa) {
+    static clear_storage() {
+        sessionStorage.removeItem("product_name");
+        sessionStorage.removeItem("id");
+        sessionStorage.removeItem("quantity");
+        sessionStorage.removeItem("price");
+    }
 
+    storage_get_item(nazwa) {
         let tmp = sessionStorage.getItem(nazwa);
+        console.log(tmp);
         if (tmp !== null) {
             console.log(tmp);
             let el = $.parseJSON(tmp);
-            console.log("set_item, ", nazwa ,el);
-            if (nazwa === "quantity" || nazwa==="id") {
+            console.log("set_item, ", nazwa, el);
+            if (nazwa === "quantity" || nazwa === "id") {
                 for (let it in el) {
                     el[it] = parseInt(el[it]);
                 }
             }
-
             this.diction[nazwa] = el;
             //console.log(this.diction[nazwa]);
+            return 1;
         }
-        else this.reset();
-
+        else {
+            this.reset();
+            return 0;
+        }
     }
 
     save_to_storage() {
@@ -42,10 +51,15 @@ class basket_class {
     }
 
     load_from_storage() {
+
         this.storage_get_item("product_name");
         this.storage_get_item("id");
         this.storage_get_item("quantity");
-        this.storage_get_item("price");
+        if (this.storage_get_item("price") === 1) //sprawdzamy tylko 1 zakładając (nadużycie) że gdy on się wczyta to inne również, gdyby tak nie było oznacza to błąd aplikacji co powinno być poinformowane dodatkowym względem 0 i 1 statusem
+            return 1; //nastapilo wczytanie
+        else return 0; //nie nastapilo wczytanie
+        //return -1 bedzie informowac o błędzie
+
     }
 
     add_product(product_name, id, quantity, price) {

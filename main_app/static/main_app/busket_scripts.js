@@ -8,9 +8,10 @@ if (basket === undefined) {
 
 //******************************funkcje ustawiające zmienne przy uruchomieniu pliku***************************
 $(document).ready(function () {
-
-    basket.load_from_storage();
-    write_busket_table("busket_table", basket.diction);
+    if(basket.load_from_storage()===1) {
+        basket.load_from_storage();
+        write_busket_table("busket_table", basket.diction);
+    }
 });
 
 //*********************************Właściwe funkcje*****************************
