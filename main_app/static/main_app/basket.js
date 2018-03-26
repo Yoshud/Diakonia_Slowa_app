@@ -21,6 +21,19 @@ class basket_class {
         sessionStorage.removeItem("price");
     }
 
+    to_json_dict() {
+        let jsondict = {
+            "product_name": {},
+            "id": {},
+            "quantity": {},
+            "price": {},
+        };
+        for (it in this.diction["id"]) {
+            jsondict["product_name"][it] = this.diction["product_name"][it];
+        }
+
+    }
+
     storage_get_item(nazwa) {
         let tmp = sessionStorage.getItem(nazwa);
         //console.log(tmp);
@@ -43,6 +56,23 @@ class basket_class {
         }
     }
 
+    field_to_string(nazwa) {
+        let str = "";
+        if (this.diction[nazwa].length <= 0)
+            return "";
+        else if (this.diction[nazwa].length === 1)
+            return this.diction[nazwa][0];
+        else {
+            for (let it in this.diction[nazwa]) {
+                if (parseInt(it) !== (this.diction[nazwa].length - 1))
+                    str += this.diction[nazwa][it] + ",";
+                else
+                    str += this.diction[nazwa][it];
+            }
+            return str;
+        }
+    }
+
     save_to_storage() {
         this.storage_set_item("product_name");
         this.storage_set_item("id");
@@ -61,9 +91,10 @@ class basket_class {
         //return -1 bedzie informowac o błędzie
 
     }
-    sum(){
+
+    sum() {
         let sum = 0;
-        for(let it in this.diction["price"]){
+        for (let it in this.diction["price"]) {
             sum += this.diction["price"][it] * this.diction["quantity"][it];
             //console.log(this.diction["price"], this.diction["quantity"])
         }

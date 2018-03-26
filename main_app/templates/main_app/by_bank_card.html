@@ -1,7 +1,4 @@
-{% if user.is_superuser %}
-
-    Formularz zaplaty przelewem
-
-{% else %}
-    <p><a href= '/admin' >Kliknij by się zalogować</a></p>
-{% endif %}
+{% extends "main_app/pay_method_template.html" %}
+{% block expand_pay_method_block %}
+    Przelewem
+{% endblock %}
