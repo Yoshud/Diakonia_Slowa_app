@@ -1,17 +1,38 @@
-
-{% extends 'main_app/pay_method.html' %}
-
-{% block pay_method_template %}
-    "<h1>Wybierz metode płatności</h1> " + ""
-+"<ul>"
-    <li>Gotówka</li>
-    " +
-    "
-    <li>>Przelewem {% url 'main_app:order' %}</li>
-    " +
-    "
-    <li>Cofnij(wymaga odzielnego dzialania)</li>
-    " +
-    "
-</ul>" ;
-    {% endblock %}
+{% if user.is_superuser %}
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src={% static 'main_app/basket.js' %}></script>
+    <script src={% static 'main_app/pay_script.js' %}></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app/main_style.css' %}"/>
+    <body>
+    <div>
+        <h1>
+            <table>
+                <tr>
+                    <td><h2>SYNOD - System nowoczesnej obsługi Diakonii Słowa</h2></td>
+                </tr>
+            </table>
+        </h1>
+        <table style="table-layout: auto; height: 5%;overflow:hidden; border-bottom-style: dotted; border-bottom-width: thin; border-color: black; background: burlywood;">
+            <tr style="height: 5%">
+                <td id="basket_sum_field" style="color: blue; text-align: left; padding-left: 10px "> Kwota do zapłaty
+                </td>
+                <td style="text-align: right; padding-right: 10px"> <input type="button" value="Dodaj zamówienie do bazy" onclick="fun_submit()"></td>
+            </tr>
+        </table>
+        <form action="{% url 'main_app:main_page' %}" method="post" id="pay_form">
+    {% csrf_token %}
+            {%  block expand_pay_method_block %}{% endblock %}
+        </form>
+    </div>
+    </body>
+    <script>
+        function fun_submit() {
+            document.getElementById("pay_form").submit();
+            basket_class.clear_storage();
+        }
+    </script>
+{% else %}
+    <p><a href='/admin'>Kliknij by się zalogować</a></p>
+{% endif %}

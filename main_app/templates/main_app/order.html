@@ -1,41 +1,47 @@
 {% if user.is_superuser %}
-<div id="main_div">
-    {% load static %}
-    {% load javascript_settings_tags %}
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-        <script src={% static 'main_app/basket.js' %}></script>
+    <div id="main_div">
+        {% load static %}
+        {% load javascript_settings_tags %}
+        <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+            <script src={% static 'main_app/basket.js' %}></script>
 
-        <link rel="stylesheet" type="text/css" href="{% static 'main_app/main_style.css' %}"/>
-    </head>
+            <link rel="stylesheet" type="text/css" href="{% static 'main_app/main_style.css' %}"/>
+        </head>
 
-    <body>
-    <div>
-        <h1>
-            <table>
-                <tr>
-                    <td><h2>SYNOD - System nowoczesnej obsługi Diakonii Słowa</h2></td>
-                </tr>
-            </table>
-        </h1>
+        <body>
+        <div>
+            <h1>
+                <table>
+                    <tr>
+                        <td><h2>SYNOD - System nowoczesnej obsługi Diakonii Słowa</h2></td>
+                    </tr>
+                </table>
+            </h1>
 
 
             <table style="table-layout: auto; height: 5%;overflow:hidden; border-bottom-style: dotted; border-bottom-width: thin; border-color: black; background: burlywood;">
                 <tr style="height: 5%">
-                    {% block pay_method_template_script %}{% endblock %}
-                    <td style="text-align: center; width: 50%"><input type="search" required="" id="search_value_order" name="search" placeholder="Szukaj" autofocus  style="width: 85%;"></td>
-                    <td style = "text-align: center;"><input type="button" id="order_accept" value = "Dalej" onclick=window.open("{% url 'main_app:pay method' %}","_self")> </td>
-                    <td><input type="button" id="basket_clear_button" value = "Wyczyść koszyk" onclick=basket_class.clear_storage()></td>
-                    <td id = "basket_sum_field" style="color: blue "></td>
+                    <td style="text-align: center; width: 60%"><input type="search" required="" id="search_value_order"
+                                                                      name="search" placeholder="Szukaj" autofocus
+                                                                      style="width: 85%;"></td>
+                    <td style="width: 10%;text-align: left;"><input type="button" id="order_accept" value="Dalej"
+                                                                    onclick=window.open("{% url 'main_app:pay method' %}","_self")>
+                    </td>
+                    <td style="width: 10%; text-align: right"><input type="button" id="basket_clear_button"
+                                                                     value="Wyczyść koszyk"
+                                                                     onclick=basket_class.clear_storage()></td>
+                    <td id="basket_sum_field" style="color: blue; text-align: end; padding-right: 10px "></td>
                 </tr>
             </table>
-        <form action={% url "main_app:pay method" %} method="post" id="order_form" style="height: 85%">
-            {%  csrf_token %}
-            <table  style="table-layout: auto; height: 95%;">
+            <form action={% url "main_app:pay method" %} method="post" id="order_form" style="height: 85%">
+                {% csrf_token %}
+                <table style="table-layout: auto; height: 95%;">
                     <td style="text-align: left; width: 60%;border-right-style: dotted; border-width: thin; border-color: black">
-                        <div >
-                            <table id="product_table" style="table-layout: auto; width: 100%; border-bottom-style: solid; border-width: thin;">
+                        <div>
+                            <table id="product_table"
+                                   style="table-layout: auto; width: 100%; border-bottom-style: solid; border-width: thin;">
                                 <tr>
                                     <th style="width: 40%">Nazwa</th>
                                     <th style="width: 10%">Ilość</th>
@@ -57,32 +63,34 @@
                                     </td>
                                 </tr>
                             </table>
-                            <table id = "busket_table" style="table-layout: auto; width: 100%; border-bottom-style: solid; border-width: thin;">
+                            <table id="busket_table"
+                                   style="table-layout: auto; width: 100%; border-bottom-style: solid; border-width: thin;">
 
                                 <tr>
                                     <th style="width: 50%">Nazwa</th>
                                     <th style="width: 15%">Ilość</th>
                                     <th style="width: 20%">Suma</th>
                                     <th style="width: 15%">Edytuj</th>
-                                 </tr>
-                                <tr> <td style="text-align: end">Koszyk jest aktualnie pusty</td></tr>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: end">Koszyk jest aktualnie pusty</td>
+                                </tr>
                             </table>
 
                         </div>
                     </td>
-                </tr>
-            </table>
-        </form>
+                    </tr>
+                </table>
+            </form>
         </div>
-    </body>
-{#    <script>#}
-{#        function fun_submit() {#}
-{#            document.getElementById("order_form").submit();#}
-{#        }#}
-{#    </script>#}
-    {%  block java_script_order_products%}{% endblock %}
-    {%  block java_script_order_busket%}{% endblock %}
-</div>
+        </body>
+        {#    <script>#}
+        {#        function fun_submit() {#}
+        {#            document.getElementById("order_form").submit();#}
+        {#        }#}
+        {#    </script>#}
+        {% block java_script_order_products %}{% endblock %}
+    </div>
 {% else %}
     <p><a href='/admin'>Kliknij by się zalogować</a></p>
 {% endif %}

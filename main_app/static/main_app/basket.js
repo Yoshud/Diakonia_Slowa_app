@@ -23,11 +23,11 @@ class basket_class {
 
     storage_get_item(nazwa) {
         let tmp = sessionStorage.getItem(nazwa);
-        console.log(tmp);
+        //console.log(tmp);
         if (tmp !== null) {
-            console.log(tmp);
+            //console.log(tmp);
             let el = $.parseJSON(tmp);
-            console.log("set_item, ", nazwa, el);
+            //console.log("set_item, ", nazwa, el);
             if (nazwa === "quantity" || nazwa === "id") {
                 for (let it in el) {
                     el[it] = parseInt(el[it]);
@@ -63,9 +63,9 @@ class basket_class {
     }
     sum(){
         let sum = 0;
-        for(it in this.diction["price"]){
+        for(let it in this.diction["price"]){
             sum += this.diction["price"][it] * this.diction["quantity"][it];
-            console.log(this.diction["price"], this.diction["quantity"])
+            //console.log(this.diction["price"], this.diction["quantity"])
         }
         return sum;
     }

@@ -1,7 +1,1 @@
-{% if user.is_superuser %}
-
-    Kalkulator przy zaplacie gotówką
-
-{% else %}
-    <p><a href= '/admin' >Kliknij by się zalogować</a></p>
-{% endif %}
+{% extends "main_app/pay_method_template.html" %}
