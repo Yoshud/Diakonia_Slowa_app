@@ -6,11 +6,12 @@ if (basket === undefined) {
 }
 // data jest zadeklarowana i zdefiniowana w pliku order_ext
 
-//******************************funkcje ustawiające zmienne przy uruchomieniu pliku***************************
+//******************************funkcje ustawiające zmienne i rusujące tabelki przy uruchomieniu pliku***************************
 $(document).ready(function () {
     if (basket.load_from_storage() === 1) {
         write_busket_table("busket_table", basket.diction);
     }
+    basket_sum();
 });
 
 document.getElementById("basket_clear_button").addEventListener('click', function () {
@@ -19,6 +20,11 @@ document.getElementById("basket_clear_button").addEventListener('click', functio
     write_empty_basket_table();
 });
 //*********************************Właściwe funkcje*****************************
+
+function basket_sum() {
+    let ref = document.getElementById("basket_sum_field");
+    ref.innerText = "Suma koszyka: " + basket.sum() + "zł";
+}
 
 ///funkcja dodaje produkt do koszyka uruchomiana przy kliknięciu przycisku
 function add_product_by_id_to_busket(id, product_name, price, number_tag = "number_") {
@@ -38,7 +44,7 @@ function add_product_by_id_to_busket(id, product_name, price, number_tag = "numb
         if (basket.diction["id"].indexOf(parseInt(id)) === -1) {
             basket.add_product(product_name, parseInt(id), quantity, price);
             write_busket_table("busket_table", basket.diction);
-            write_order_page_product();
+            //write_order_page_product();
         }
     }
     basket.save_to_storage();
@@ -63,8 +69,8 @@ function write_busket_table(table_ID, data) {
         Cellstyle(cell);
         cell.style.textAlign = "center";
         cell.innerHTML = "<input type='button' value='Edytuj'>";
-
     }
+    basket_sum();
 }
 
 function write_empty_basket_table(table_ID = "busket_table")
@@ -80,6 +86,8 @@ function write_empty_basket_table(table_ID = "busket_table")
     cell = newRow.insertCell();
     cell = newRow.insertCell();
     cell = newRow.insertCell();
+
+    basket_sum();
 }
 ///Rysuje tabelkę zamówinia
 function write_order_page_product(table_ID = "product_table") {

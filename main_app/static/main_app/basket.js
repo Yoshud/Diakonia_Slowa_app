@@ -61,6 +61,14 @@ class basket_class {
         //return -1 bedzie informowac o błędzie
 
     }
+    sum(){
+        let sum = 0;
+        for(it in this.diction["price"]){
+            sum += this.diction["price"][it] * this.diction["quantity"][it];
+            console.log(this.diction["price"], this.diction["quantity"])
+        }
+        return sum;
+    }
 
     add_product(product_name, id, quantity, price) {
         this.diction["product_name"].push(product_name);
