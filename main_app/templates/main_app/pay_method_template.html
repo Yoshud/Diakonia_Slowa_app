@@ -35,6 +35,14 @@
             basket_class.clear_storage();
         }
     </script>
+    <script>
+        $(document).ready(function if_basket_empty() {
+            if (basket.empty()){
+                alert("Błąd: Koszyk jest pusty");
+                window.open(" {% url 'main_app:main_page' %} ", "_self");
+            }
+        });
+    </script>
 {% else %}
     <p><a href='/admin'>Kliknij by się zalogować</a></p>
 {% endif %}

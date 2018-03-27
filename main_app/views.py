@@ -62,16 +62,27 @@ class AjaxProductView(View):
 
 ajax_product_view = AjaxProductView.as_view()
 
+def string_list_field(request, name):
+    return request.POST.get(name, '').split(",")
+
+def float_list_field_parse(request, name):
+    string_list = string_list_field(request, name)
+    return [float(el) for el in string_list]
+
+def int_list_field_parse(request, name):
+    string_list = string_list_field(request, name)
+    return [int(el) for el in string_list]
+
 
 class AjaxAddOrderView(View):
     def post(self, request, **kwargs):
+        #pobieranie koszyka z skyptu po stronie klienta
         basket = {
-            "product_name": request.POST.get('product_name', '').split(","),
-            "id": request.POST.get('id', '').split(","),
-            "quantity": request.POST.get('quantity', '').split(","),
-            "price": request.POST.get('price', '').split(","),
+            "product_name": string_list_field(request, "product_name"),
+            "id": int_list_field_parse(request, "id"),
+            "quantity": int_list_field_parse(request, "quantity"),
+            "price": float_list_field_parse(request, "price"),
         }
-        # print((request.POST.get('id', '').split(",")))
         return JsonResponse(basket)
 
 
