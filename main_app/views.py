@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Product_base, Order_base
+from .models import Product_base, Order_base, Sales_base
 from django.views.generic import View
 from django.utils import timezone
 import datetime
@@ -73,6 +73,19 @@ def int_list_field_parse(request, name):
     string_list = string_list_field(request, name)
     return [int(el) for el in string_list]
 
+def add_order_to_base(basket):
+    order_var = Order_base(date = timezone.now())
+    order_var.save()
+    for it, pk in enumerate(basket["id"]) :
+        #odpisanie zamówienia z magazynu
+        product = Product_base.objects.get(pk = pk)
+        product.quantity -= basket["quantity"][it]
+        product.save()
+        #podzielenie zamówienia na produkty
+        product_sale = Sales_base(product = product, order = order_var, price_in_moment=product.price, quantity=basket["quantity"][it])
+        product_sale.save()
+
+
 
 class AjaxAddOrderView(View):
     def post(self, request, **kwargs):
@@ -83,6 +96,7 @@ class AjaxAddOrderView(View):
             "quantity": int_list_field_parse(request, "quantity"),
             "price": float_list_field_parse(request, "price"),
         }
+        add_order_to_base(basket)
         return JsonResponse(basket)
 
 

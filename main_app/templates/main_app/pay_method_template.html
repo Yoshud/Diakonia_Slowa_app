@@ -30,9 +30,10 @@
     </body>
     <script>
         function fun_submit() {
-            {#document.getElementById("pay_form").submit();#}
+            document.getElementById("pay_form").submit();
             post(" {%  url 'main_app:ajax-add-order-view' %} ");
             basket_class.clear_storage();
+            basket.reset()
         }
     </script>
     <script>

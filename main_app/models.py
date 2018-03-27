@@ -14,6 +14,8 @@ class Product_base(models.Model):
 
 class Order_base(models.Model):
     date = models.DateTimeField("data sprzedaży", default=timezone.now)
+    def __str__(self):
+        return str(self.date.date())
 
 class Sales_base(models.Model):
     product = models.ForeignKey(Product_base, on_delete=models.CASCADE)
