@@ -91,6 +91,10 @@ class basket_class {
         //return -1 bedzie informowac o błędzie
 
     }
+    empty(){
+        console.log(this.diction["id"].length === 0);
+        return (this.diction["id"].length === 0)
+    }
 
     sum() {
         let sum = 0;

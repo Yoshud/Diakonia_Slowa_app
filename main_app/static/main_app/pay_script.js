@@ -4,21 +4,20 @@ if (basket === undefined) {
     basket = new basket_class();
     //console.log(basket);
 }
-// data jest zadeklarowana i zdefiniowana w pliku order_ext
 
-//******************************funkcje ustawiające zmienne i rusujące tabelki przy uruchomieniu pliku***************************
+//******************************funkcje ustawiające zmienne***************************
 $(document).ready(function () {
     if (basket.load_from_storage() === 1) {
         console.log(basket.diction);
     }
     basket_sum();
 });
-
 function basket_sum() {
     let ref = document.getElementById("basket_sum_field");
     ref.innerText = "Kwota do zapłaty: " + basket.sum() + "zł";
 }
 
+//*******************************Wysyłanie danych do backend***************************
 function post(url) {
     var tmp = "sending";
     console.log(tmp);

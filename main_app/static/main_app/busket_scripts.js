@@ -27,20 +27,7 @@ function basket_sum() {
     ref.innerText = "Suma koszyka: " + basket.sum() + "zł";
 }
 
-/*
-function write_products_table_if_all_quantity_equals_zero(id){ //można to zrealizować lepiej dodając licznik inkrementowany przy zmianie wartości z zera dla numer
-    let if_write = true;
-    for(let it in data_obj.data.pk){
-        if(data_obj.data[it] !== id){
-            let ref = $("#number_" + data_obj.data.pk[it]);
-            if(parseInt(ref.val()) > 0)
-                if_write = false;
-        }
-    }
-    if(if_write)
-        write_order_page_product_table();
-}
-*/
+
 
 ///funkcja dodaje produkt do koszyka uruchomiana przy kliknięciu przycisku
 function add_product_by_id_to_busket(id, product_name, price, number_tag = "number_") {

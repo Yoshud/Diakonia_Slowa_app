@@ -27,7 +27,7 @@
                                                                       name="search" placeholder="Szukaj" autofocus
                                                                       style="width: 85%;"></td>
                     <td style="width: 10%;text-align: left;"><input type="button" id="order_accept" value="Dalej"
-                                                                    onclick=window.open("{% url 'main_app:pay method' %}","_self")>
+                                                                    onclick=to_pay_method()>
                     </td>
                     <td style="width: 10%; text-align: right"><input type="button" id="basket_clear_button"
                                                                      value="Wyczyść koszyk"
@@ -84,11 +84,14 @@
             </form>
         </div>
         </body>
-        {#    <script>#}
-        {#        function fun_submit() {#}
-        {#            document.getElementById("order_form").submit();#}
-        {#        }#}
-        {#    </script>#}
+        <script>
+            function to_pay_method() {
+                if (!basket.empty())
+                    window.open(" {% url 'main_app:pay method' %} ", "_self");
+                else
+                    alert("Koszyk jest pusty");
+            }
+        </script>
         {% block java_script_order_products %}{% endblock %}
     </div>
 {% else %}
