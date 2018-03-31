@@ -1,0 +1,33 @@
+
+{% if user.is_superuser %}
+    {% load static %}
+    {% load javascript_settings_tags %}
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'main_app/main_style.css' %}"/>
+        {% block scripts_links_block %}{% endblock %}
+    </head>
+
+    <body>
+    <div>
+        <h1>
+            <table>
+                <tr>
+                    <td><h2>SYNOD - System nowoczesnej obsługi Diakonii Słowa</h2></td>
+                </tr>
+            </table>
+        </h1>
+        <table style="table-layout: auto; height: 5%;overflow:hidden; border-bottom-style: dotted; border-bottom-width: thin; border-color: black; background: burlywood;">
+               {% block bar_table_block %}{% endblock %}
+        </table>
+        <table class="main_page_table" style="table-layout: auto; height: 95%;">
+            {% block main_table_block %}{% endblock %}
+        </table>
+    </div>
+    {% block java_scripts_block %}{% endblock %}
+    </body>
+
+{% else %}
+    <p><a href='/admin'>Kliknij by się zalogować</a></p>
+{% endif %}

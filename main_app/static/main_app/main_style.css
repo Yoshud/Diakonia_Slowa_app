@@ -3,6 +3,21 @@ div table{
     border-spacing: 0;
     overflow: hidden;
 }
+.main_page_table td{
+    padding: 0;
+}
+.main_page_table{
+
+}
+
+.main_page_table th{
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-left-width: thin;
+    border-bottom-width: medium;
+    height: 1%;
+}
+
 div form table td
 {
     padding: 0;
@@ -13,9 +28,6 @@ div form table th{
     border-left-width: thin;
     border-bottom-width: medium;
     height: 1%;
-}
-div form table td div{
-
 }
 
 .table_cell{

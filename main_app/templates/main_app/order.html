@@ -1,28 +1,10 @@
-{% if user.is_superuser %}
-    <div id="main_div">
-        {% load static %}
-        {% load javascript_settings_tags %}
-        <head>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-            <script src={% static 'main_app/basket.js' %}></script>
-
-            <link rel="stylesheet" type="text/css" href="{% static 'main_app/main_style.css' %}"/>
-        </head>
-
-        <body>
-        <div>
-            <h1>
-                <table>
-                    <tr>
-                        <td><h2>SYNOD - System nowoczesnej obsługi Diakonii Słowa</h2></td>
-                    </tr>
-                </table>
-            </h1>
-
-
-            <table style="table-layout: auto; height: 5%;overflow:hidden; border-bottom-style: dotted; border-bottom-width: thin; border-color: black; background: burlywood;">
-                <tr style="height: 5%">
+{%  extends "main_app/template_page.html" %}
+{% load static %}
+{% block scripts_links_block %}
+    <script src={% static 'main_app/basket.js' %}></script>
+{% endblock %}
+{% block bar_table_block %}
+    <tr>
                     <td style="text-align: center; width: 60%"><input type="search" required="" id="search_value_order"
                                                                       name="search" placeholder="Szukaj" autofocus
                                                                       style="width: 85%;"></td>
@@ -34,11 +16,10 @@
                                                                      onclick=basket_class.clear_storage()></td>
                     <td id="basket_sum_field" style="color: blue; text-align: end; padding-right: 10px "></td>
                 </tr>
-            </table>
-            <form action={% url "main_app:pay method" %} method="post" id="order_form" style="height: 85%">
-                {% csrf_token %}
-                <table style="table-layout: auto; height: 95%;">
-                    <td style="text-align: left; width: 60%;border-right-style: dotted; border-width: thin; border-color: black">
+{% endblock %}
+{% block main_table_block %}
+    <tr>
+          <td style="text-align: left; width: 60%;border-right-style: dotted; border-width: thin; border-color: black">
                         <div>
                             <table id="product_table"
                                    style="table-layout: auto; width: 100%; border-bottom-style: solid; border-width: thin;">
@@ -80,11 +61,10 @@
                         </div>
                     </td>
                     </tr>
-                </table>
-            </form>
-        </div>
-        </body>
-        <script>
+{% endblock %}
+
+{%  block java_scripts_block %}
+     <script>
             function to_pay_method() {
                 if (!basket.empty())
                     window.open(" {% url 'main_app:pay method' %} ", "_self");
@@ -93,7 +73,4 @@
             }
         </script>
         {% block java_script_order_products %}{% endblock %}
-    </div>
-{% else %}
-    <p><a href='/admin'>Kliknij by się zalogować</a></p>
-{% endif %}
+{% endblock %}
