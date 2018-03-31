@@ -10,7 +10,7 @@
     </head>
 
     <body>
-    <div >
+    <div>
         <h1>
             <table>
                 <tr>
@@ -28,16 +28,19 @@
                     <td style="text-align: right;width: 50%"><a href="{% url 'main_app:manage' %}">Zarządzaj</a></td>
                 </tr>
                 <tr style="height: 60%;">
-                    <td style="text-align: center; width: 50%"><input type="search" required="" id="search_value" name="search" placeholder="Szukaj" autofocus style="width: 85%;">
+                    <td style="text-align: center; width: 50%"><input type="search" required="" id="search_value"
+                                                                      name="search" placeholder="Szukaj" autofocus
+                                                                      style="width: 85%;">
                     </td>
-                    <td style="text-align: left;width: 50%"><input type="button" id="search_button" value="Szukaj" ></td>
+                    <td style="text-align: left;width: 50%"><input type="button" id="search_button" value="Szukaj"></td>
                 </tr>
             </table>
-            <table  style="table-layout: auto; height: 95%;">
+            <table style="table-layout: auto; height: 95%;">
                 <tr>
                     <td style="text-align: left; width: 65%;border-right-style: dotted; border-width: thin; border-color: black">
-                        <div >
-                            <table id="product_table" style="table-layout: auto; width: 100%; border-style: solid; border-width: thin;">
+                        <div>
+                            <table id="product_table"
+                                   style="table-layout: auto; width: 100%; border-style: solid; border-width: thin;">
                                 <tr>
                                     <th style="width: 70%;">Nazwa</th>
                                     <th style="width: 10%;">Ilość</th>
@@ -48,16 +51,42 @@
                     </td>
                     <td style="text-align: right; width: 35%">
                         <div>
-                            <table id = "last_order_table"></table>
+                            <table style="">
+                                <tr>
+                                    <td class="table_cell right_table" style="text-align: center; width: 50%">
+                                        Zamówienia
+                                    </td>
+                                    <td class="table_cell right_table" style="text-align: center"> Podsumowanie</td>
+                                </tr>
+                                <tr>
+                                    <td class="table_cell right_table_header"> Utarg:</td>
+                                    <td class="table_cell right_table_header"> {{ sum_of_all }} zł</td>
+                                </tr>
+                            </table>
+                            <table id="last_order_table" style="border-top-style: solid; border-top-width: thin">
+                                <tr>
+                                    <th class="table_cell right_table_header" style=" width: 60%">Dane zamówienia</th>
+                                    <th class="table_cell right_table_header" style="width: 20%; padding: 0"> Godzina
+                                    </th>
+                                    <th class="table_cell right_table_header" style="width: 20%; padding: 0"> Kwota</th>
+                                </tr>
+                                    {% for order, price_sum in tuples  %}
+                                    <tr>
+                                        <td class="table_cell right_table"> Jakis numer</td>
+                                        <td class="table_cell right_table ">{{ order.date.time }}</td>
+                                        <td class="table_cell right_table">{{ price_sum }} zł</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
                         </div>
                     </td>
                 </tr>
             </table>
         </form>
-        {%  block java_script_block %}{% endblock %}
+        {% block java_script_block %}{% endblock %}
         {% block java_script_last_order %}{% endblock %}
     </div>
     </body>
 {% else %}
-    <p><a href= '/admin' >Kliknij by się zalogować</a></p>
+    <p><a href='/admin'>Kliknij by się zalogować</a></p>
 {% endif %}

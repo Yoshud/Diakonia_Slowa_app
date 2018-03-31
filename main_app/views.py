@@ -26,13 +26,31 @@ def products_to_table(products):
 
 
 def sought_products(string):
-    products = Product_base.objects.filter(product_name__icontains=string)
+    products = Product_base.objects.filter(product_name__icontains=string).order_by( "-product_name")
     return products_to_table(products)
 
+def abridged_orders():
+    orders = Order_base.objects.filter(date__gte=(timezone.now() - datetime.timedelta(hours=12)), date__lte=timezone.now())
+    return orders
+def abridged_orders_with_sum():
+    orders = abridged_orders()
+    sum_tmp = []
+    list_of_sum = []
+    return_tuples = []
+    for order in orders:
+        for sale in order.sales_base_set.all():
+            # print(order.date.time(), sale.quantity, sale.price_in_moment, sale.product.product_name)
+            sum_tmp.append(sale.quantity * sale.price_in_moment)
+        list_of_sum.append(sum(sum_tmp))
+        return_tuples.append((order, sum(sum_tmp)))
+        sum_tmp = []
 
+    return {
+        "tuples": return_tuples,
+        "sum_of_all": sum(list_of_sum),
+    }
 def abridged_orders_to_table():
-    orders = Order_base.objects.filter(date__gte=(timezone.now() - datetime.timedelta(hours=12)),
-                                       date__lte=timezone.now())
+    orders = abridged_orders()
     hour = []
     order_sum = []
     id = []
@@ -50,7 +68,7 @@ def abridged_orders_to_table():
 
 
 def main_page(request):
-    return render(request, 'main_app/main_page_products.html')
+    return render(request, 'main_app/main_page_products.html' , abridged_orders_with_sum())
 
 
 class AjaxProductView(View):
