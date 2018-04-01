@@ -17,7 +17,7 @@
     <tr>
                     <td style="text-align: left; width: 65%;border-right-style: dotted; border-width: thin; border-color: black">
                         <div>
-                            <table id="product_table"
+                            <table class="left_table text_table" id="product_table"
                                    style="table-layout: auto; width: 100%; border-style: solid; border-width: thin;">
                                 <tr>
                                     <th style="width: 70%;">Nazwa</th>
@@ -29,7 +29,7 @@
                     </td>
                     <td style="text-align: right; width: 35%">
                         <div>
-                            <table style="">
+                            <table class="text_table" style="">
                                 <tr>
                                     <td class="table_cell right_table" style="text-align: center; width: 50%">
                                         Zamówienia
@@ -41,7 +41,7 @@
                                     <td class="table_cell right_table_header"> {{ sum_of_all }} zł</td>
                                 </tr>
                             </table>
-                            <table id="last_order_table" style="border-top-style: solid; border-top-width: thin">
+                            <table class="text_table" id="last_order_table" style="border-top-style: solid; border-top-width: thin">
                                 <tr>
                                     <th class="table_cell right_table_header" style=" width: 60%">Dane zamówienia</th>
                                     <th class="table_cell right_table_header" style="width: 20%; padding: 0"> Godzina
@@ -50,7 +50,7 @@
                                 </tr>
                                     {% for order, price_sum in tuples  %}
                                     <tr>
-                                        <td class="table_cell right_table"> Jakis numer</td>
+                                        <td class="table_cell right_table">Zamówienie nr.{{ forloop.counter }} (id: {{ order.pk }})</td>
                                         <td class="table_cell right_table ">{{ order.date.time }}</td>
                                         <td class="table_cell right_table">{{ price_sum }} zł</td>
                                     </tr>

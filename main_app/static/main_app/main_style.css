@@ -5,37 +5,49 @@ div table{
 }
 .main_page_table td{
     padding: 0;
+    border-width: thin;
 }
 .main_page_table{
-
 }
 
 .main_page_table th{
-    border-left-style: solid;
     border-bottom-style: solid;
-    border-left-width: thin;
+    border-width: thin;
     border-bottom-width: medium;
     height: 1%;
+}
+.left_table {
+
 }
 
-div form table td
-{
-    padding: 0;
+.left_table th{
+    border-left-style: solid;
 }
-div form table th{
+.left_table td{
     border-left-style: solid;
     border-bottom-style: solid;
-    border-left-width: thin;
-    border-bottom-width: medium;
-    height: 1%;
 }
 
 .table_cell{
     padding-left: 5px;
     border-width: thin;
 }
+.text_table{
+
+}
+.text_table td{
+    padding-left: 5px;
+}
 .right_table  {
     border-bottom-style: solid;
+    border-right-style: solid;
+}
+
+.right_table td{
+    border-bottom-style: solid;
+    border-right-style: solid;
+}
+.right_table th{
     border-right-style: solid;
 }
 .right_table_header{

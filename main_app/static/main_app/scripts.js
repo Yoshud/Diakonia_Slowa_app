@@ -63,7 +63,7 @@ function Cellstyle(newCell) {
 
 function newcell(text, Row) {
     let newCell = Row.insertCell();
-    Cellstyle(newCell);
+    // Cellstyle(newCell);
     let newText = document.createTextNode(text);
     newCell.appendChild(newText);
     return newCell

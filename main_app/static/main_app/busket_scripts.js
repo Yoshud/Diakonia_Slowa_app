@@ -65,7 +65,7 @@ function write_busket_table(table_ID, data) {
         cell.setAttribute("id", "sum_" + data["id"][it]);
 
         cell = newRow.insertCell();
-        Cellstyle(cell);
+        //Cellstyle(cell);
         cell.style.textAlign = "center";
         cell.innerHTML = "<input type='button' value='Edytuj'>";
     }
@@ -140,7 +140,7 @@ function write_order_page_product_table(table_ID = "product_table") {
 
                     let cell = newRow.insertCell();
                     cell.setAttribute("onchange", "update_sum (" + data.pk[it] + "," + data.price[it] + "," + data.quantity[it] + ")");
-                    Cellstyle(cell);
+                    //Cellstyle(cell);
                     let input = document.createElement("INPUT");
                     input.setAttribute("type", "number");
                     input.setAttribute("id", "number_" + data.pk[it]);
@@ -155,12 +155,12 @@ function write_order_page_product_table(table_ID = "product_table") {
                     cell.appendChild(input);
 
                     cell = newRow.insertCell();
-                    Cellstyle(cell);
+                    //Cellstyle(cell);
                     cell.setAttribute("id", "sum_" + data.pk[it]);
                     cell.innerHTML = "0zł";
 
                     cell = newRow.insertCell();
-                    Cellstyle(cell);
+                    //Cellstyle(cell);
                     cell.style.textAlign = "center";
                     cell.innerHTML = "<input type='button' value='Dodaj'>";
                     cell.dataset.pk = data.pk[it];
