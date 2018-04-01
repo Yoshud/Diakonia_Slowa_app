@@ -18,6 +18,7 @@ document.getElementById("basket_clear_button").addEventListener('click', functio
     basket.reset();
     write_order_page_product_table();
     write_empty_basket_table();
+    document.getElementById("search_value_order").focus();
 });
 
 //*********************************Właściwe funkcje*****************************
@@ -42,6 +43,7 @@ function add_product_by_id_to_busket(id, product_name, price, number_tag = "numb
         console.log(basket.diction["id"], id, basket.diction["id"].indexOf(parseInt(id)));
         if (basket.diction["id"].indexOf(parseInt(id)) === -1) {
             basket.add_product(product_name, parseInt(id), quantity, price);
+            $("#search_value_order").focus();
             write_busket_table("busket_table", basket.diction);
             update_order_page_product_table(id);
         }
@@ -65,11 +67,19 @@ function write_busket_table(table_ID, data) {
         cell.setAttribute("id", "sum_" + data["id"][it]);
 
         cell = newRow.insertCell();
-        //Cellstyle(cell);
-        cell.style.textAlign = "center";
-        cell.innerHTML = "<input type='button' value='Edytuj'>";
+        basket_el_edit_button(cell, data["id"][it]);
     }
     basket_sum();
+}
+
+function basket_el_edit_button(cell, id) {
+        cell.style.textAlign = "center";
+        let input = document.createElement("INPUT");
+        input.setAttribute("type", "button");
+        input.setAttribute("value", "Edytuj");
+        input.setAttribute("id", "basket_el_edit_button_" + id);
+        cell.appendChild(input);
+
 }
 
 function write_empty_basket_table(table_ID = "busket_table") {
@@ -133,7 +143,7 @@ function write_order_page_product_table(table_ID = "product_table") {
                 if ((basket.diction["id"].indexOf(data.pk[it])) === -1) {
                     //console.log(basket.diction["id"].indexOf(data.pk[it]), basket.diction["id"], data.pk[it]);
                     let newRow = table_ref.insertRow();
-
+                    newRow.setAttribute("onclick", "document.getElementById(\"number_" + data.pk[it]+"\").focus();");
                     newcell(data.product_name[it], newRow);
                     newcell(data.quantity[it], newRow);
                     newcell(data.price[it] + " zł", newRow);
@@ -159,6 +169,7 @@ function write_order_page_product_table(table_ID = "product_table") {
                     cell.setAttribute("id", "sum_" + data.pk[it]);
                     cell.innerHTML = "0zł";
 
+                    console.log(data.pk[it]);
                     cell = newRow.insertCell();
                     //Cellstyle(cell);
                     cell.style.textAlign = "center";
@@ -169,6 +180,8 @@ function write_order_page_product_table(table_ID = "product_table") {
                     cell.addEventListener('click', function () {
                         add_product_by_id_to_busket(this.dataset.pk, this.dataset.product_name, this.dataset.price);
                     });
+
+
                 }
             }
         }
