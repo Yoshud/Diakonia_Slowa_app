@@ -26,7 +26,7 @@ def products_to_table(products):
 
 
 def sought_products(string):
-    products = Product_base.objects.filter(product_name__icontains=string).order_by( "-product_name")
+    products = Product_base.objects.filter(product_name__icontains=string).order_by("product_name")
     return products_to_table(products)
 
 def abridged_orders():

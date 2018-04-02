@@ -91,7 +91,8 @@ class basket_class {
         //return -1 bedzie informowac o błędzie
 
     }
-    empty(){
+
+    empty() {
         console.log(this.diction["id"].length === 0);
         return (this.diction["id"].length === 0)
     }
@@ -112,14 +113,33 @@ class basket_class {
         this.diction["price"].push(price);
         this.save_to_storage();
     }
-    get_product_it_by_id(id){
-     //   console.log(this.diction["id"], id ,this.diction["id"].indexOf(id));
+
+    get_product_it_by_id(id) {
+        //   console.log(this.diction["id"], id ,this.diction["id"].indexOf(id));
         return this.diction["id"].indexOf(parseInt(id));
     }
-    set_product_quantity_get_by_id(id, quantity){
-        this.diction["quantity"][this.get_product_it_by_id(id)] = quantity;
+
+    set_product_quantity_get_by_id(id, quantity) {
+        console.log(quantity);
+        if (parseInt(quantity)=== 0) {
+            console.log("in");
+            this.remove_product_by_id(id);
+        }
+        else {
+            this.diction["quantity"][this.get_product_it_by_id(id)] = quantity;
+            this.save_to_storage();
+        }
+    }
+
+    remove_product_by_id(id) {
+        let it = this.get_product_it_by_id(id);
+        this.diction["product_name"].splice(it,1);
+        this.diction["id"].splice(it,1);
+        this.diction["quantity"].splice(it,1);
+        this.diction["price"].splice(it,1);
         this.save_to_storage();
     }
+
     reset() {
         this.diction["product_name"] = [];
         this.diction["id"] = [];

@@ -54,6 +54,7 @@ function add_product_by_id_to_busket(id, product_name, price, number_tag = "numb
 
 ///Rysuje tabelke koszyka
 function write_busket_table(table_ID = "busket_table", data = basket.diction) {
+    console.log(data);
     let table_ref = document.getElementById(table_ID);
     t_delete(table_ref, 1, table_ref.rows.length);
     for (it in data["product_name"]) {
@@ -132,7 +133,7 @@ function update_order_page_product_table(id = -1, table_ID = "product_table") { 
     let data = data_obj.data;
     let counter = 0;
     for (let it in data.pk) {
-        console.log(it);
+     //   console.log(it);
         if (id === -1) {
             if ((basket.diction["id"].indexOf(data.pk[it])) !== -1) {
                 console.log(it);
@@ -187,7 +188,7 @@ function write_order_page_product_table(table_ID = "product_table") {
                     cell.setAttribute("id", "sum_" + data.pk[it]);
                     cell.innerHTML = "0zł";
 
-                    console.log(data.pk[it]);
+                    //console.log(data.pk[it]);
                     cell = newRow.insertCell();
                     cell.style.textAlign = "center";
                     cell.innerHTML = "<input type='button' value='Dodaj'>";
