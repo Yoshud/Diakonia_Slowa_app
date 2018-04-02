@@ -102,15 +102,15 @@ function basket_el_edit_button(cell, id, quantity, quantity_cell_ref) {
         quantity_cell_ref.addEventListener('change', function () {
             update_sum(id, data_obj.get_price_by_id(id), data_obj.get_quantity_by_id(id), "basket_number_", "basket_sum_");
         });
-
+        document.getElementById("basket_number_" + id).focus();
         console.log(id, quantity);
+
         //Funkcja dzialająca po zaakceptowaniu wpisuje wartosc do koszyka i rysuje od nowa tabelke
         input.addEventListener('click', function accept() {
-            basket.set_product_quantity_get_by_id(id, $("#basket_number_"+id).val());
+            basket.set_product_quantity_get_by_id(id, $("#basket_number_" + id).val());
             write_busket_table("busket_table", basket.diction);
             input.removeEventListener('click', accept);
         });
-
     });
     cell.appendChild(input);
 }
@@ -125,7 +125,6 @@ function write_empty_basket_table(table_ID = "busket_table") {
     cell.style.borderStyle = "hidden";
     cell.style.textAlign = "right";
     cell.appendChild(text);
-
     basket_sum();
 }
 
@@ -181,18 +180,15 @@ function write_order_page_product_table(table_ID = "product_table") {
 
                     let cell = newRow.insertCell();
                     cell.setAttribute("onchange", "update_sum (" + data.pk[it] + "," + data.price[it] + "," + data.quantity[it] + ")");
-                    //Cellstyle(cell);
 
                     cell.appendChild(quantity_input(data.pk[it], data.quantity[it], "number_"));
 
                     cell = newRow.insertCell();
-                    //Cellstyle(cell);
                     cell.setAttribute("id", "sum_" + data.pk[it]);
                     cell.innerHTML = "0zł";
 
                     console.log(data.pk[it]);
                     cell = newRow.insertCell();
-                    //Cellstyle(cell);
                     cell.style.textAlign = "center";
                     cell.innerHTML = "<input type='button' value='Dodaj'>";
                     cell.dataset.pk = data.pk[it];
