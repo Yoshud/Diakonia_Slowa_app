@@ -29,10 +29,9 @@ function basket_sum() {
 }
 
 
-
 ///funkcja dodaje produkt do koszyka uruchomiana przy kliknięciu przycisku
 function add_product_by_id_to_busket(id, product_name, price, number_tag = "number_") {
-    //localStorage.clear();
+
     basket.load_from_storage();
     let number_ref = $("#" + number_tag + id);
     let quantity = number_ref.val();
@@ -54,32 +53,66 @@ function add_product_by_id_to_busket(id, product_name, price, number_tag = "numb
 //********************************Funkcje rysujące tabelki, odpowiednio koszyka i produktów*****************************
 
 ///Rysuje tabelke koszyka
-function write_busket_table(table_ID, data) {
+function write_busket_table(table_ID = "busket_table", data = basket.diction) {
     let table_ref = document.getElementById(table_ID);
     t_delete(table_ref, 1, table_ref.rows.length);
     for (it in data["product_name"]) {
         let newRow = table_ref.insertRow();
         newcell(data["product_name"][it], newRow);
-        newcell(data["quantity"][it], newRow);
+        let quantity_cell_ref = newcell(data["quantity"][it], newRow);
 
 
         let cell = newcell((data["quantity"][it] * data["price"][it]) + "zł", newRow);
-        cell.setAttribute("id", "sum_" + data["id"][it]);
+        cell.setAttribute("id", "basket_sum_" + data["id"][it]);
 
         cell = newRow.insertCell();
-        basket_el_edit_button(cell, data["id"][it]);
+        basket_el_edit_button(cell, data["id"][it], data["quantity"][it], quantity_cell_ref);
     }
     basket_sum();
 }
 
-function basket_el_edit_button(cell, id) {
-        cell.style.textAlign = "center";
-        let input = document.createElement("INPUT");
-        input.setAttribute("type", "button");
-        input.setAttribute("value", "Edytuj");
-        input.setAttribute("id", "basket_el_edit_button_" + id);
-        cell.appendChild(input);
+function quantity_input(id, max, tag, value = 0, min = 0) {
+    let quantity_input = document.createElement("INPUT");
+    quantity_input.setAttribute("type", "number");
+    quantity_input.setAttribute("id", tag + id);
+    quantity_input.setAttribute("value", value);
+    quantity_input.setAttribute("min", min);
+    quantity_input.setAttribute("max", max);
+    quantity_input.style.width = "100%";
+    quantity_input.style.height = "100%";
+    quantity_input.style.padding = 0;
+    quantity_input.style.border = 0;
+    return quantity_input
+}
 
+function basket_el_edit_button(cell, id, quantity, quantity_cell_ref) {
+    cell.style.textAlign = "center";
+    let input = document.createElement("INPUT");
+    input.setAttribute("type", "button");
+    input.setAttribute("value", "Edytuj");
+    input.setAttribute("id", "basket_el_edit_button_" + id);
+
+    //funkcja reagująca na kliknięcie edycji, dodaje pole zmiany ilosci
+    input.addEventListener('click', function edit() {
+        input.setAttribute('value', "Akceptuj");
+        input.removeEventListener('click', edit);
+        quantity_cell_ref.innerHTML = "";
+        quantity_cell_ref.appendChild(quantity_input(id, data_obj.get_quantity_by_id(id), "basket_number_", quantity));
+
+        quantity_cell_ref.addEventListener('change', function () {
+            update_sum(id, data_obj.get_price_by_id(id), data_obj.get_quantity_by_id(id), "basket_number_", "basket_sum_");
+        });
+
+        console.log(id, quantity);
+        //Funkcja dzialająca po zaakceptowaniu wpisuje wartosc do koszyka i rysuje od nowa tabelke
+        input.addEventListener('click', function accept() {
+            basket.set_product_quantity_get_by_id(id, $("#basket_number_"+id).val());
+            write_busket_table("busket_table", basket.diction);
+            input.removeEventListener('click', accept);
+        });
+
+    });
+    cell.appendChild(input);
 }
 
 function write_empty_basket_table(table_ID = "busket_table") {
@@ -89,11 +122,9 @@ function write_empty_basket_table(table_ID = "busket_table") {
     let newRow = table_ref.insertRow();
     cell = newRow.insertCell();
     let text = document.createTextNode("Koszyk jest aktualnie pusty");
+    cell.style.borderStyle = "hidden";
     cell.style.textAlign = "right";
     cell.appendChild(text);
-    cell = newRow.insertCell();
-    cell = newRow.insertCell();
-    cell = newRow.insertCell();
 
     basket_sum();
 }
@@ -143,7 +174,7 @@ function write_order_page_product_table(table_ID = "product_table") {
                 if ((basket.diction["id"].indexOf(data.pk[it])) === -1) {
                     //console.log(basket.diction["id"].indexOf(data.pk[it]), basket.diction["id"], data.pk[it]);
                     let newRow = table_ref.insertRow();
-                    newRow.setAttribute("onclick", "document.getElementById(\"number_" + data.pk[it]+"\").focus();");
+                    newRow.setAttribute("onclick", "document.getElementById(\"number_" + data.pk[it] + "\").focus();");
                     newcell(data.product_name[it], newRow);
                     newcell(data.quantity[it], newRow);
                     newcell(data.price[it] + " zł", newRow);
@@ -151,18 +182,8 @@ function write_order_page_product_table(table_ID = "product_table") {
                     let cell = newRow.insertCell();
                     cell.setAttribute("onchange", "update_sum (" + data.pk[it] + "," + data.price[it] + "," + data.quantity[it] + ")");
                     //Cellstyle(cell);
-                    let input = document.createElement("INPUT");
-                    input.setAttribute("type", "number");
-                    input.setAttribute("id", "number_" + data.pk[it]);
-                    input.setAttribute("value", 0);
-                    input.setAttribute("min", 0);
-                    input.setAttribute("max", data.quantity[it]);
-                    input.setAttribute("required", "");
-                    input.style.width = "100%";
-                    input.style.height = "100%";
-                    input.style.padding = 0;
-                    input.style.border = 0;
-                    cell.appendChild(input);
+
+                    cell.appendChild(quantity_input(data.pk[it], data.quantity[it], "number_"));
 
                     cell = newRow.insertCell();
                     //Cellstyle(cell);
@@ -180,8 +201,6 @@ function write_order_page_product_table(table_ID = "product_table") {
                     cell.addEventListener('click', function () {
                         add_product_by_id_to_busket(this.dataset.pk, this.dataset.product_name, this.dataset.price);
                     });
-
-
                 }
             }
         }

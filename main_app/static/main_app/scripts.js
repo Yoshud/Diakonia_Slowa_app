@@ -54,13 +54,6 @@ function t_delete(table_ref, begin, end) {
     }
 }
 
-function Cellstyle(newCell) {
-    newCell.style.borderTopStyle = "solid";
-    newCell.style.borderLeftStyle = "solid";
-    newCell.style.borderWidth = "thin";
-    newCell.style.paddingLeft = "5px";
-}
-
 function newcell(text, Row) {
     let newCell = Row.insertCell();
     // Cellstyle(newCell);

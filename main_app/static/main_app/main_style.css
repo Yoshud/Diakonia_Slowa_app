@@ -1,3 +1,9 @@
+body{
+    background: #fffae6;
+}
+input[type="number"] {
+    background: #fffae6;
+}
 div table{
     width: 100%;
     border-spacing: 0;

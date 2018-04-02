@@ -10,7 +10,7 @@ class Product_base(models.Model):
     price = models.DecimalField("cena", max_digits=5, decimal_places=2, default=0.00)
     quantity = models.IntegerField("Ilość",default = 0)
     def __str__(self):
-        return self.product_name + ' ilosc: ' + str(self.quantity) + " cena: " + str(self.price) + "zł/szt"
+        return str(self.pk) +" " + self.product_name + ' ilosc: ' + str(self.quantity) + " cena: " + str(self.price) + "zł/szt"
 
 class Order_base(models.Model):
     date = models.DateTimeField("data sprzedaży", default=timezone.now)

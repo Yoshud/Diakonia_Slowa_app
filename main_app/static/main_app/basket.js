@@ -110,8 +110,16 @@ class basket_class {
         this.diction["id"].push(id);
         this.diction["quantity"].push(quantity);
         this.diction["price"].push(price);
+        this.save_to_storage();
     }
-
+    get_product_it_by_id(id){
+     //   console.log(this.diction["id"], id ,this.diction["id"].indexOf(id));
+        return this.diction["id"].indexOf(parseInt(id));
+    }
+    set_product_quantity_get_by_id(id, quantity){
+        this.diction["quantity"][this.get_product_it_by_id(id)] = quantity;
+        this.save_to_storage();
+    }
     reset() {
         this.diction["product_name"] = [];
         this.diction["id"] = [];
