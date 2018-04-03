@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'Diakonia_Slowa.wsgi.application'
 DATABASES = {
        'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ds_produkty',
+        'NAME': 'ds_produkty_pl',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
