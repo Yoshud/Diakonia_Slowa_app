@@ -5,10 +5,11 @@ app_name = 'main_app'
 urlpatterns = [
     path('', views.main_page, name='main_page'),
     path('order', views.order, name='order'),
-    path('manage', views.menage, name='manage'),
+    path('manage', views.manage, name='manage'),
     path('order/pay_method', views.pay_method, name='pay method'),
     path('order/pay_method/calculator', views.calculator, name='in_cash'),
     path('order/pay_method/by_bank_card', views.bank_card, name='by_transfer'),
     re_path(r'^ajax/$', views.ajax_product_view, name='ajax-product-view'),
     path('add_order', views.ajax_add_order_view, name='ajax-add-order-view'),
+    path('order/<int:pk>/', views.Single_Order.as_view(), name='single_order'),
 ]

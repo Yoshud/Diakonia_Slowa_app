@@ -1,0 +1,21 @@
+{% extends 'main_app/template_page.html' %}
+{% load static %}
+{% block scripts_links_block %}
+{% endblock %}
+
+{% block bar_table_block %}
+    <tr style="height: 5%">
+        <td id="basket_sum_field" style="color: blue; text-align: left; padding-left: 10px "> Kwota zamówienia:
+        </td>
+    </tr>
+{% endblock %}
+{% block main_table_block %}
+
+{% endblock %}
+{% block java_scripts_block %}
+    <script>
+        function to_main() {
+            window.open("{% url 'main_app:main_page' %}", "_self")
+        }
+    </script>
+{% endblock %}

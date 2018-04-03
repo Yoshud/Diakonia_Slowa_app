@@ -1,6 +1,6 @@
 
 function write_main_page_product(table_ID, data) {
-    table_ref = document.getElementById(table_ID);
+    let table_ref = document.getElementById(table_ID);
     console.log("write: ", data.product_name);
     t_delete(table_ref, 1, table_ref.rows.length);
     if ((data.product_name.length < 1)) {
@@ -17,8 +17,17 @@ function write_main_page_product(table_ID, data) {
             newcell(data.quantity[it], newRow);
             newcell(data.price[it] + " zł", newRow);
         }
+        empty_row(table_ref);
     }
     console.log("size: ", table_ref.rows);
+}
+
+function empty_row(table_ref, height = "120px") {
+    let newRow = table_ref.insertRow();
+    newRow.style.borderStyle = "hidden";
+    let cell = newRow.insertCell();
+    cell.style.borderStyle = "hidden";
+    newRow.style.height = height;
 }
 
 function validate_number_count(number_tag, id, max_quantity){

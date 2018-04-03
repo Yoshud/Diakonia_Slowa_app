@@ -17,8 +17,7 @@
     <tr>
                     <td style="text-align: left; width: 65%;border-right-style: dotted; border-width: thin; border-color: black">
                         <div>
-                            <table class="left_table text_table" id="product_table"
-                                   style="table-layout: auto; width: 100%; border-style: solid; border-width: thin;">
+                            <table class="left_table text_table script_writing_table" id="product_table">
                                 <tr>
                                     <th style="width: 70%;">Nazwa</th>
                                     <th style="width: 10%;">Ilość</th>
@@ -49,7 +48,8 @@
                                     <th class="table_cell right_table_header" style="width: 20%; padding: 0"> Kwota</th>
                                 </tr>
                                     {% for order, price_sum in tuples  %}
-                                    <tr>
+                                  <tr onclick=window.open("{% url 'main_app:single_order' order.pk %}")>
+
                                         <td class="table_cell right_table">Zamówienie nr.{{ forloop.counter }} (id: {{ order.pk }})</td>
                                         <td class="table_cell right_table ">{{ order.date.time }}</td>
                                         <td class="table_cell right_table">{{ price_sum }} zł</td>

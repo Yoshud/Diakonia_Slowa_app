@@ -4,6 +4,8 @@ from .models import Product_base, Order_base, Sales_base
 from django.views.generic import View
 from django.utils import timezone
 import datetime
+from django.views import generic
+
 import json
 
 
@@ -125,7 +127,7 @@ def order(request):
     return render(request, 'main_app/order_ext.html')
 
 
-def menage(request):
+def manage(request):
     return render(request, 'main_app/manage.html')
 
 
@@ -139,3 +141,8 @@ def bank_card(request):
 
 def pay_method(request):
     return render(request, 'main_app/pay_method.html')
+
+class Single_Order(generic.DetailView):
+    model = Order_base
+    template_name = 'main_app/single_order.html'
+    context_object_name = 'order'

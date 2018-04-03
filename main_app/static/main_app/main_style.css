@@ -1,84 +1,107 @@
-body{
+body {
     background: #fffae6;
 }
+
 input[type="number"] {
     background: #fffae6;
 }
-div table{
+
+div table {
     width: 100%;
     border-spacing: 0;
     overflow: hidden;
 }
-.main_page_table td{
+
+.main_page_table td {
     padding: 0;
     border-width: thin;
 }
-.main_page_table{
+
+.main_page_table {
 }
 
-.main_page_table th{
+.main_page_table th {
     border-bottom-style: solid;
     border-width: thin;
     border-bottom-width: medium;
     height: 1%;
 }
+
 .left_table {
 
 }
 
-.left_table th{
+.left_table th {
     border-left-style: solid;
 }
-.left_table td{
+
+.left_table td {
     border-left-style: solid;
     border-bottom-style: solid;
 }
 
-.table_cell{
+.table_cell {
     padding-left: 5px;
     border-width: thin;
 }
-.text_table{
+
+.text_table {
 
 }
-.text_table td{
+
+.text_table td {
     padding-left: 5px;
 }
-.right_table  {
+
+.right_table {
     border-bottom-style: solid;
     border-right-style: solid;
 }
 
-.right_table td{
+.right_table td {
     border-bottom-style: solid;
     border-right-style: solid;
 }
-.right_table th{
+
+.right_table th {
     border-right-style: solid;
 }
-.right_table_header{
+
+.right_table_header {
     border-bottom-style: solid;
     border-right-style: solid;
     border-bottom-width: medium;
     border-left-style: hidden;
 }
+
+.script_writing_table {
+    table-layout: auto;
+    width: 100%;
+    border-bottom-style: hidden;
+    border-right-style: hidden;
+    border-width: thin;
+}
+
 div table div {
     width: 100%;
     height: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
+
 div table div h2 {
     font-family: "Times New Roman";
     color: blue;
 }
+
 div table td {
     border: black;
     border-style: hidden;
     margin: 0;
     border-spacing: 0;
 }
-div form{
+
+div form {
     margin: 0;
 }
 
@@ -87,26 +110,31 @@ h1 {
     margin: 0;
     border-width: 0;
 }
+
 h1 table {
     table-layout: auto;
     height: 15%;
 }
+
 h1 table tr {
     height: 100%;
     width: 100%;
     text-align: center;
     vertical-align: text-top;
 }
+
 h2 {
     font-family: "Times New Roman";
     color: wheat;
 }
+
 div {
     height: 100%;
     width: 100%;
     margin: 0;
-    overflow:hidden
+    overflow: hidden
 }
-body{
+
+body {
     margin: 0
 }

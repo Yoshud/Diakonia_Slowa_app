@@ -69,6 +69,7 @@ function write_busket_table(table_ID = "busket_table", data = basket.diction) {
         cell = newRow.insertCell();
         basket_el_edit_button(cell, data["id"][it], data["quantity"][it], quantity_cell_ref);
     }
+    empty_row(table_ref);
     basket_sum();
 }
 
@@ -200,6 +201,7 @@ function write_order_page_product_table(table_ID = "product_table") {
                     });
                 }
             }
+                empty_row(table_ref);
         }
     }
 }
