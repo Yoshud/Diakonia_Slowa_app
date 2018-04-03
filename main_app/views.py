@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Product_base, Order_base, Sales_base
+from .models import Product_base, Order_base, Sales_base, Debtor_base
 from django.views.generic import View
 from django.utils import timezone
 import datetime
@@ -104,24 +104,54 @@ def add_order_to_base(basket):
         #podzielenie zamówienia na produkty
         product_sale = Sales_base(product = product, order = order_var, price_in_moment=product.price, quantity=basket["quantity"][it])
         product_sale.save()
+def ret_form_of_payment(order):
 
+        try:
+            if order.debtor.if_settle :
+                return "Przlew (uregulowane)"
+            else:
+                return "Przelew (nieuregulowane)"
+        except Debtor_base.DoesNotExist:
+            return "Gotówką"
+def ret_client_data(order):
+    try:
+        return order.debtor.firstname +" " + order.debtor.surname
+    except Debtor_base.DoesNotExist:
+        return "brak danych"
 def single_order_diction_fun(order_id):
     order = get_object_or_404(Order_base, pk = order_id)
     tuples = []
     product_sum = []
+    sales_tuples = []
     for order_product in order.sales_base_set.all():
         single_product_sum = order_product.quantity * order_product.price_in_moment
         product_sum.append(single_product_sum)
-        tuples.append( (order_product , single_product_sum) )
+        tuples.append( (order_product , single_product_sum, sales_count(order_product.product.pk)) )
+        #sales_tuples.append(sales_count(order_product.pk))
+    print(tuples)
     order_sum = sum(product_sum)
-
+    print(ret_form_of_payment(order))
     diction = {
         "order": order,
         "tuples": tuples,
         "order_sum": order_sum,
+        "form_of_payment": ret_form_of_payment(order),
+        "client_data": ret_client_data(order),
                }
     return diction
-
+def sales_count(product_id):
+    hours = 7 * 24 + 12
+    #print(product_id)
+    sales = Sales_base.objects.filter( product__pk__exact=product_id ,order__date__gte = (timezone.now() - datetime.timedelta(hours=hours)))
+    print( Sales_base.objects.filter(product__pk__exact = product_id, order__date__gte = (timezone.now() - datetime.timedelta(hours=hours))))
+    sales_quantity = sales.all().count()
+    sum_of_sales_product = 0
+    for sale in sales:
+        sum_of_sales_product += sale.quantity
+        print("pętla:" + str(sum_of_sales_product))
+    #return ( sales_quantity, sum_of_sales_product )
+    print("koniec: " + str(sum_of_sales_product))
+    return sum_of_sales_product
 
 class AjaxAddOrderView(View):
     def post(self, request, **kwargs):
