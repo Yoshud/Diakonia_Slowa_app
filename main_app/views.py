@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Product_base, Order_base, Sales_base
 from django.views.generic import View
@@ -105,6 +105,22 @@ def add_order_to_base(basket):
         product_sale = Sales_base(product = product, order = order_var, price_in_moment=product.price, quantity=basket["quantity"][it])
         product_sale.save()
 
+def single_order_diction_fun(order_id):
+    order = get_object_or_404(Order_base, pk = order_id)
+    tuples = []
+    product_sum = []
+    for order_product in order.sales_base_set.all():
+        single_product_sum = order_product.quantity * order_product.price_in_moment
+        product_sum.append(single_product_sum)
+        tuples.append( (order_product , single_product_sum) )
+    order_sum = sum(product_sum)
+
+    diction = {
+        "order": order,
+        "tuples": tuples,
+        "order_sum": order_sum,
+               }
+    return diction
 
 
 class AjaxAddOrderView(View):
@@ -146,3 +162,6 @@ class Single_Order(generic.DetailView):
     model = Order_base
     template_name = 'main_app/single_order.html'
     context_object_name = 'order'
+
+def single_order(request, pk):
+    return render(request, 'main_app/single_order.html', single_order_diction_fun(pk))

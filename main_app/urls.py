@@ -11,5 +11,6 @@ urlpatterns = [
     path('order/pay_method/by_bank_card', views.bank_card, name='by_transfer'),
     re_path(r'^ajax/$', views.ajax_product_view, name='ajax-product-view'),
     path('add_order', views.ajax_add_order_view, name='ajax-add-order-view'),
-    path('order/<int:pk>/', views.Single_Order.as_view(), name='single_order'),
+    #path('order/<int:pk>/', views.Single_Order.as_view(), name='single_order'),
+    path('order/<int:pk>/', views.single_order, name='single_order'),
 ]
