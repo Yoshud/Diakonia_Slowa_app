@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Product_base, Order_base, Sales_base, Debtor_base
+from .models import Product_base, Order_base, Product_order_base, Debtor_base
 from django.views.generic import View
 from django.utils import timezone
 import datetime
@@ -102,7 +102,7 @@ def add_order_to_base(basket):
         product.quantity -= basket["quantity"][it]
         product.save()
         #podzielenie zamówienia na produkty
-        product_sale = Sales_base(product = product, order = order_var, price_in_moment=product.price, quantity=basket["quantity"][it])
+        product_sale = Product_order_base(product = product, order = order_var, price_in_moment=product.price, quantity=basket["quantity"][it])
         product_sale.save()
 def ret_form_of_payment(order):
 
@@ -115,7 +115,7 @@ def ret_form_of_payment(order):
             return "Gotówką"
 def ret_client_data(order):
     try:
-        return order.debtor.firstname +" " + order.debtor.surname
+        return order.debtor.client.firstname +" " + order.debtor.client.surname + "email: "+ order.debtor.client.email
     except Debtor_base.DoesNotExist:
         return "brak danych"
 def single_order_diction_fun(order_id):
@@ -123,7 +123,7 @@ def single_order_diction_fun(order_id):
     tuples = []
     product_sum = []
     sales_tuples = []
-    for order_product in order.sales_base_set.all():
+    for order_product in order.product_order_base_set.all():
         single_product_sum = order_product.quantity * order_product.price_in_moment
         product_sum.append(single_product_sum)
         tuples.append( (order_product , single_product_sum, sales_count(order_product.product.pk)) )
@@ -142,8 +142,8 @@ def single_order_diction_fun(order_id):
 def sales_count(product_id):
     hours = 7 * 24 + 12
     #print(product_id)
-    sales = Sales_base.objects.filter( product__pk__exact=product_id ,order__date__gte = (timezone.now() - datetime.timedelta(hours=hours)))
-    print( Sales_base.objects.filter(product__pk__exact = product_id, order__date__gte = (timezone.now() - datetime.timedelta(hours=hours))))
+    sales = Product_order_base.objects.filter(product__pk__exact=product_id, order__date__gte = (timezone.now() - datetime.timedelta(hours=hours)))
+    print(Product_order_base.objects.filter(product__pk__exact = product_id, order__date__gte = (timezone.now() - datetime.timedelta(hours=hours))))
     sales_quantity = sales.all().count()
     sum_of_sales_product = 0
     for sale in sales:
