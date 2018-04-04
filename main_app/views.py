@@ -40,7 +40,7 @@ def abridged_orders_with_sum():
     list_of_sum = []
     return_tuples = []
     for order in orders:
-        for sale in order.sales_base_set.all():
+        for sale in order.product_order_base_set.all():
             # print(order.date.time(), sale.quantity, sale.price_in_moment, sale.product.product_name)
             sum_tmp.append(sale.quantity * sale.price_in_moment)
         list_of_sum.append(sum(sum_tmp))
