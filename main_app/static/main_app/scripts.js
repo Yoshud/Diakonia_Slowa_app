@@ -32,12 +32,14 @@ function empty_row(table_ref, height = "120px") {
 
 function validate_number_count(number_tag, id, max_quantity){
     let number_ref = $("#"+number_tag +id);
-    let how_many = number_ref.val();
+    let how_many = parseInt( number_ref.val() );
+    let max_quantity_tmp = parseInt(max_quantity);
+    console.log(number_ref, max_quantity_tmp);
 
     if(number_ref.val().trim().length === 0){
         number_ref.val(0);}
-        if(how_many > max_quantity) {
-            number_ref.val(max_quantity);
+        if(how_many > max_quantity_tmp) {
+            number_ref.val(max_quantity_tmp);
             alert("Przkroczono ilość na magazynie. Ustawiona zostaje maksymalna dostępna ilość")
         }
         else if(how_many < 0) {

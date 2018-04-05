@@ -124,6 +124,7 @@ class basket_class {
         if (parseInt(quantity)=== 0) {
             console.log("in");
             this.remove_product_by_id(id);
+            write_order_page_product_table()
         }
         else {
             this.diction["quantity"][this.get_product_it_by_id(id)] = quantity;

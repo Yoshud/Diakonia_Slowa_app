@@ -32,6 +32,7 @@ function basket_sum() {
 ///funkcja dodaje produkt do koszyka uruchomiana przy kliknięciu przycisku
 function add_product_by_id_to_busket(id, product_name, price, number_tag = "number_") {
 
+    //console.log("TU jestem: ",data_obj.data);
     basket.load_from_storage();
     let number_ref = $("#" + number_tag + id);
     let quantity = number_ref.val();
@@ -44,7 +45,6 @@ function add_product_by_id_to_busket(id, product_name, price, number_tag = "numb
             basket.add_product(product_name, parseInt(id), quantity, price);
             $("#search_value_order").focus();
             write_busket_table("busket_table", basket.diction);
-            update_order_page_product_table(id);
         }
     }
     basket.save_to_storage();
@@ -75,11 +75,12 @@ function write_busket_table(table_ID = "busket_table", data = basket.diction) {
 
 function quantity_input(id, max, tag, value = 0, min = 0) {
     let quantity_input = document.createElement("INPUT");
+    console.log("max:", tag, max);
     quantity_input.setAttribute("type", "number");
     quantity_input.setAttribute("id", tag + id);
     quantity_input.setAttribute("value", value);
     quantity_input.setAttribute("min", min);
-    quantity_input.setAttribute("max", max);
+    quantity_input.setAttribute("max", parseInt(max));
     quantity_input.style.width = "100%";
     quantity_input.style.height = "100%";
     quantity_input.style.padding = 0;
@@ -99,6 +100,7 @@ function basket_el_edit_button(cell, id, quantity, quantity_cell_ref) {
         input.setAttribute('value', "Akceptuj");
         input.removeEventListener('click', edit);
         quantity_cell_ref.innerHTML = "";
+        //console.log("settig: ", data_obj.get_quantity_by_id(id));
         quantity_cell_ref.appendChild(quantity_input(id, data_obj.get_quantity_by_id(id), "basket_number_", quantity));
 
         quantity_cell_ref.addEventListener('change', function () {
@@ -111,6 +113,7 @@ function basket_el_edit_button(cell, id, quantity, quantity_cell_ref) {
         input.addEventListener('click', function accept() {
             basket.set_product_quantity_get_by_id(id, $("#basket_number_" + id).val());
             write_busket_table("busket_table", basket.diction);
+            //update_order_page_product_table();
             input.removeEventListener('click', accept);
         });
     });
@@ -134,7 +137,7 @@ function update_order_page_product_table(id = -1, table_ID = "product_table") { 
     let data = data_obj.data;
     let counter = 0;
     for (let it in data.pk) {
-     //   console.log(it);
+        //   console.log(it);
         if (id === -1) {
             if ((basket.diction["id"].indexOf(data.pk[it])) !== -1) {
                 console.log(it);
@@ -160,6 +163,7 @@ function write_order_page_product_table(table_ID = "product_table") {
     console.log(data_obj);
     let data = data_obj.data;
     console.log(data);
+    let flag
     if (data !== undefined) {
         let table_ref = document.getElementById(table_ID);
         t_delete(table_ref, 1, table_ref.rows.length);
@@ -201,7 +205,7 @@ function write_order_page_product_table(table_ID = "product_table") {
                     });
                 }
             }
-                empty_row(table_ref);
+            empty_row(table_ref);
         }
     }
 }
