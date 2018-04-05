@@ -45,6 +45,7 @@ function add_product_by_id_to_busket(id, product_name, price, number_tag = "numb
             basket.add_product(product_name, parseInt(id), quantity, price);
             $("#search_value_order").focus();
             write_busket_table("busket_table", basket.diction);
+            update_order_page_product_table(id);
         }
     }
     basket.save_to_storage();
@@ -163,7 +164,7 @@ function write_order_page_product_table(table_ID = "product_table") {
     console.log(data_obj);
     let data = data_obj.data;
     console.log(data);
-    let flag
+    let flag;
     if (data !== undefined) {
         let table_ref = document.getElementById(table_ID);
         t_delete(table_ref, 1, table_ref.rows.length);
@@ -202,6 +203,7 @@ function write_order_page_product_table(table_ID = "product_table") {
                     cell.dataset.price = data.price[it];
                     cell.addEventListener('click', function () {
                         add_product_by_id_to_busket(this.dataset.pk, this.dataset.product_name, this.dataset.price);
+
                     });
                 }
             }
