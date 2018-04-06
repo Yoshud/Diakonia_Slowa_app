@@ -1,4 +1,3 @@
-
 {% if user.is_superuser %}
     {% load static %}
     {% load javascript_settings_tags %}
@@ -12,22 +11,29 @@
     <body>
     <div>
         <h1>
-            <table>
+            <table onclick="to_main()">
                 <tr>
-                    <td><h2>SYNOD - System nowoczesnej obsługi Diakonii Słowa</h2></td>
+                    <td>
+                        <h2>SYNOD - System nowoczesnej obsługi Diakonii Słowa</h2>
+                    </td>
                 </tr>
             </table>
         </h1>
         <table style="table-layout: auto; height: 5%;overflow:hidden; border-bottom-style: dotted; border-bottom-width: thin; border-color: black; background: burlywood;">
-               {% block bar_table_block %}{% endblock %}
+            {% block bar_table_block %}{% endblock %}
         </table>
         <table class="main_page_table" style="table-layout: auto; height: 95%;">
             {% block main_table_block %}{% endblock %}
         </table>
     </div>
     {% block java_scripts_block %}{% endblock %}
+    <script>
+        function to_main() {
+            window.open("{% url 'main_app:main_page' %}", "-self")
+        }
+    </script>
     </body>
-
 {% else %}
     <p><a href='/admin'>Kliknij by się zalogować</a></p>
 {% endif %}
+
