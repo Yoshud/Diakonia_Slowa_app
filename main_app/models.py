@@ -4,16 +4,20 @@ from django.db import models
 from django.utils import timezone
 from datetime import time
 
-
-class Tag_base(models.Model):
-    tag = models.CharField("tag", max_length=100, default="")
+class Tag(models.Model):
+    tag = models.CharField("tag", max_length=50, default="")
     def __str__(self):
         return self.tag
+    class Meta:
+        abstract = True
 
-class Realisation_tag_base(models.Model):
-    tag = models.CharField("tag", max_length=100, default="")
-    def __str__(self):
-        return self.tag
+class Tag_base(Tag):
+    pass
+class Tech_tag_base(Tag):
+    pass
+class Realisation_tag_base(Tag):
+   pass
+
 
 class Product_base(models.Model):
     product_name = models.CharField("nazwa", max_length=200, default="no_name")
