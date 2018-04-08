@@ -24,12 +24,14 @@ class Product_base(models.Model):
     price = models.DecimalField("cena", max_digits=5, decimal_places=2, default=0.00)
     quantity = models.IntegerField("Ilość", default=0)
     tag = models.ManyToManyField(Tag_base, related_name="product", blank=True)
-    tech_tag = models.ManyToManyField(Tag_base, related_name="product_tech", blank=True)
+    tech_tag = models.ManyToManyField(Tech_tag_base, related_name="product_tech", blank=True)
 
     def __str__(self):
-        return str(self.pk) + " " + self.product_name + ' ilosc: ' + str(self.quantity) + " cena: " + str(
+        return self.product_name + ' ilosc: ' + str(self.quantity) + " cena: " + str(
             self.price) + "zł/szt"
 
+    def is_in_stock(self):
+        return (self.quantity > 0)
 
 class Order_base(models.Model):
     date = models.DateTimeField("data sprzedaży", default=timezone.now)
