@@ -5,7 +5,7 @@ from django.views.generic import View
 from django.utils import timezone
 import datetime
 from django.views import generic
-
+from django.db.models import Q
 import json
 
 
@@ -28,7 +28,7 @@ def products_to_table(products):
 
 
 def sought_products(string):
-    products = Product_base.objects.filter(product_name__icontains=string).order_by("product_name")
+    products = Product_base.objects.filter(Q(product_name__icontains=string) | Q(tag__tag__startswith=string)).order_by("product_name")
     return products_to_table(products)
 
 def abridged_orders():

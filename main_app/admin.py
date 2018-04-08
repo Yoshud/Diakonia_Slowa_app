@@ -1,16 +1,11 @@
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 
-
 from .models import Product_base, Product_order_base, Order_base, Debtor_base, Client_base, Tag_base, \
-    Realisation_tag_base, Order_extern_base, Order_extern_realisation_base, Product_order_extern_realisation_base, Tech_tag_base
+    Realisation_tag_base, Order_extern_base, Order_extern_realisation_base, Product_order_extern_realisation_base, \
+    Tech_tag_base
 
 AdminSite.site_header = "SYNOD alpha 1.02 Django administration"
-
-class TagInLine(admin.StackedInline):
-    extra = 5
-class Product_Tag_InLine(TagInLine):
-    model = Tag_base
 
 class Product_InLine(admin.TabularInline):
     model = Product_order_base
@@ -20,24 +15,24 @@ class Debtor_InLine(admin.StackedInline):
     model = Debtor_base
     extra = 0
 
-class Realisation_Tag_InLine(TagInLine):
-    model = Realisation_tag_base
-
 class Product_base_admin(admin.ModelAdmin):
-    list_display = ('pk' , 'product_name', 'quantity', 'price')
+    list_display = ('pk', 'product_name', 'quantity', 'price')
     list_filter = ['tag', 'tech_tag']
     search_fields = ['product_name']
     filter_horizontal = ('tag', 'tech_tag')
+
 
 class Client_base_admin(admin.ModelAdmin):
     list_display = ('firstname', 'surname', 'email')
     inlines = [Debtor_InLine]
     search_fields = ['firstname', 'surname', '^email']
 
+
 class Debtor_base_admin(admin.ModelAdmin):
     list_display = ('client', 'order', 'if_settle')
     list_filter = ['if_settle']
     search_fields = ['client__firstname', 'client__surname']
+
 
 class Order_base_admin(admin.ModelAdmin):
     list_display = ('date',)
@@ -47,7 +42,7 @@ class Order_base_admin(admin.ModelAdmin):
 
 
 class Product_order_base_admin(admin.ModelAdmin):
-    list_display = ('product', 'price_in_moment','quantity', 'order')
+    list_display = ('product', 'price_in_moment', 'quantity', 'order')
     search_fields = ['product__product_name']
     list_filter = ['order__date', 'product__tag', 'product__tech_tag']
 
