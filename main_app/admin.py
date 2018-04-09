@@ -7,13 +7,31 @@ from .models import Product_base, Product_order_base, Order_base, Debtor_base, C
 
 AdminSite.site_header = "SYNOD alpha 1.02 Django administration"
 
-class Product_InLine(admin.TabularInline):
+
+class Product_order_InLine(admin.TabularInline):
     model = Product_order_base
     extra = 0
+
+
+class Tech_tag_product_InLine(admin.TabularInline):
+    model = Product_base.tech_tag.through
+    extra = 1
+
+
+class Tag_product_InLine(admin.TabularInline):
+    model = Product_base.tag.through
+    extra = 1
+
+
+class Realisation_tag_product_InLine(admin.TabularInline):
+    model = Order_extern_realisation_base
+    extra = 0
+
 
 class Debtor_InLine(admin.StackedInline):
     model = Debtor_base
     extra = 0
+
 
 class Product_base_admin(admin.ModelAdmin):
     list_display = ('pk', 'product_name', 'quantity', 'price')
@@ -36,7 +54,7 @@ class Debtor_base_admin(admin.ModelAdmin):
 
 class Order_base_admin(admin.ModelAdmin):
     list_display = ('date',)
-    inlines = [Product_InLine]
+    inlines = [Product_order_InLine]
     list_filter = ['date', 'debtor__if_settle']
     search_fields = ['product_order_base__product__product_name']
 
@@ -47,14 +65,28 @@ class Product_order_base_admin(admin.ModelAdmin):
     list_filter = ['order__date', 'product__tag', 'product__tech_tag']
 
 
+class Tag_base_admin(admin.ModelAdmin):
+    inlines = [Tag_product_InLine, ]
+    exclude = ('product',)
+
+
+class Teach_tag_base_admin(admin.ModelAdmin):
+    inlines = [Tech_tag_product_InLine, ]
+    exclude = ('product',)
+
+
+class Realisation_tag_base_admin(admin.ModelAdmin):
+    inlines = [Realisation_tag_product_InLine, ]
+
+
 admin.site.register(Product_base, Product_base_admin)
 admin.site.register(Product_order_base, Product_order_base_admin)
 admin.site.register(Order_base, Order_base_admin)
 admin.site.register(Debtor_base, Debtor_base_admin)
 admin.site.register(Client_base, Client_base_admin)
-admin.site.register(Tag_base)
-admin.site.register(Tech_tag_base)
-admin.site.register(Realisation_tag_base)
+admin.site.register(Tag_base, Tag_base_admin)
+admin.site.register(Tech_tag_base, Teach_tag_base_admin)
+admin.site.register(Realisation_tag_base, Realisation_tag_base_admin)
 admin.site.register(Order_extern_base)
 admin.site.register(Order_extern_realisation_base)
 admin.site.register(Product_order_extern_realisation_base)
