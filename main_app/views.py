@@ -28,7 +28,10 @@ def products_to_table(products):
 
 
 def sought_products(string):
-    products = Product_base.objects.filter(Q(product_name__icontains=string) | Q(tag__tag__startswith=string)).order_by("product_name")
+    products = Product_base.objects.all()
+    for word in string.split(' '):
+        products = products.filter(Q(product_name__icontains=word) | Q(tag__tag__startswith=word))
+    products = products.order_by("product_name")
     return products_to_table(products)
 
 def abridged_orders():
