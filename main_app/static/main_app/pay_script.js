@@ -1,4 +1,7 @@
-// **************************************zmienne globalne*********************************************
+// **************************************zmienne globalne do komunikacji*********************************************
+
+
+// **************************************zmienne globalne dla tego pliku*********************************************
 let basket;
 if (basket === undefined) {
     basket = new basket_class();
@@ -18,9 +21,9 @@ function basket_sum() {
 }
 
 //*******************************Wysyłanie danych do backend***************************
-function post(url) {
+function post(url, client_id=-1) {
     var tmp = "sending";
-    console.log(tmp);
+    console.log(client_id);
     console.log(basket.diction);
     $.ajax({
         url: url,
@@ -31,6 +34,7 @@ function post(url) {
             "product_name": basket.field_to_string("product_name"),
             "quantity": basket.field_to_string("quantity"),
             "price": basket.field_to_string("price"),
+            "client_id": client_id
         },
         success: function (data) {
             console.log(data);
