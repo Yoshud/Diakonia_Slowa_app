@@ -17,10 +17,8 @@
         {% csrf_token %}
         {% block expand_pay_method_block %}{% endblock %}
     </form>
-{% endblock %}
-{% block java_scripts_block %}
-    {% block validate_submit_fun %}
 
+    {% block validate_submit_fun %}
     {% endblock %}
     <script>
         function fun_submit() {
@@ -31,8 +29,12 @@
                 basket.reset()
             }
         }
-
     </script>
+{% endblock %}
+
+
+
+{% block java_scripts_block %}
     <script>
         $(document).ready(function if_basket_empty() {
             if (basket.empty()) {

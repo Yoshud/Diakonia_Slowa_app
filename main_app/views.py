@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import Product_base, Order_base, Product_order_base, Debtor_base
+from .models import Product_base, Order_base, Product_order_base, Debtor_base, Client_base
 from django.views.generic import View
 from django.utils import timezone
 import datetime
@@ -74,8 +74,20 @@ def abridged_orders_to_table():
 
 
 def main_page(request):
+    add_client(request)
     return render(request, 'main_app/main_page_products.html' , abridged_orders_with_sum())
 
+def add_client(request):
+    fname = request.POST.get('fname', ' ')
+    sname = request.POST.get('sname', ' ')
+    email = request.POST.get('email', ' ')
+    print(fname, sname, email)
+    try:
+        client = Client_base.objects.get(firstname=fname, surname=sname, email=email)
+    except:
+        client = Client_base(firstname=fname, surname=sname, email=email)
+        client.save()
+    return client
 
 class AjaxProductView(View):
     def post(self, request, **kwargs):
