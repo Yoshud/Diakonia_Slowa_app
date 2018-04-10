@@ -1,8 +1,8 @@
 {% extends "main_app/pay_method_template.html" %}
 {%  load static %}
 {% block expand_pay_method_block %}
-    Imie: <input type="text" name="fname" required>
-    Nazwisko: <input type="text" name="sname" required>
+    Imie: <input type="text" name="fname" required id="firstname_field">
+    Nazwisko: <input type="text" name="sname" required id="surname_field">
     email: <input type="email" name="email" id="email_field" required>
 {% endblock %}
 
@@ -22,6 +22,15 @@
             function  validate_submit() {
                 email_ajax_validate("{% url  'main_app:email_validate'%}", $("#email_field").val());
                 console.log($("#email_field").val(), email_validation_flag);
+
+                if($("#firstname_field").val()==='') {
+                    alert("Puste pole z imieniem");
+                    return false;
+                }
+                if($("#surname_field").val()==='') {
+                    alert("Puste pole z nazwiskiem");
+                    return false;
+                }
                 return email_validation_flag;
             }
     </script>
