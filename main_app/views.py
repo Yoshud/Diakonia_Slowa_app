@@ -6,6 +6,7 @@ from django.utils import timezone
 import datetime
 from django.views import generic
 from django.db.models import Q
+from django.core.validators import EmailValidator, ValidationError
 import json
 
 
@@ -166,11 +167,22 @@ class AjaxAddOrderView(View):
             "price": float_list_field_parse(request, "price"),
         }
         add_order_to_base(basket)
-        return JsonResponse(basket)
+        return JsonResponse(basket) #przesyla z powrotem dla celow testu
 
 
 ajax_add_order_view = AjaxAddOrderView.as_view()
 
+class Ajax_Email_Validate_View(View):
+    def post(self, request, **kwargs):
+        email = request.POST.get('email', ' ')
+        validate_email = EmailValidator("Niepoprawny adres email", "invalid_email")
+        try:
+            validate_email(email)
+            return JsonResponse({'msg': 'ok'})
+        except ValidationError as error:
+            return JsonResponse({"msg": str(error)})
+
+ajax_email_validate_view = Ajax_Email_Validate_View.as_view()
 
 def order(request):
     return render(request, 'main_app/order_ext.html')

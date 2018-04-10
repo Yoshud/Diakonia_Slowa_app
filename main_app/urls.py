@@ -13,4 +13,5 @@ urlpatterns = [
     path('add_order', views.ajax_add_order_view, name='ajax-add-order-view'),
     #path('order/<int:pk>/', views.Single_Order.as_view(), name='single_order'),
     path('order/<int:pk>/', views.single_order, name='single_order'),
+    path('email_validate', views.ajax_email_validate_view, name='email_validate'),
 ]

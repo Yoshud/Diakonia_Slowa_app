@@ -19,13 +19,19 @@
     </form>
 {% endblock %}
 {% block java_scripts_block %}
+    {% block validate_submit_fun %}
+
+    {% endblock %}
     <script>
         function fun_submit() {
-            document.getElementById("pay_form").submit();
-            post(" {%  url 'main_app:ajax-add-order-view' %} ");
-            basket_class.clear_storage();
-            basket.reset()
+            if (validate_submit()) {
+                post(" {%  url 'main_app:ajax-add-order-view' %} ");
+                document.getElementById("pay_form").submit();
+                basket_class.clear_storage();
+                basket.reset()
+            }
         }
+
     </script>
     <script>
         $(document).ready(function if_basket_empty() {
@@ -35,4 +41,5 @@
             }
         });
     </script>
+    {% block expand_java_script_block %}{% endblock %}
 {% endblock %}
