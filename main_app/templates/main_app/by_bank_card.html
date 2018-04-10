@@ -1,37 +1,46 @@
 {% extends "main_app/pay_method_template.html" %}
-{%  load static %}
-{% block expand_pay_method_block %}
-    Imie: <input type="text" name="fname" required id="firstname_field">
-    Nazwisko: <input type="text" name="sname" required id="surname_field">
-    email: <input type="email" name="email" id="email_field" required>
+{% load static %}
+{% block main_table_block %}
+    <form action="{% url "main_app:by_bank_card_redirect" %}" method="post" id="pay_form">
+    {% csrf_token %}
+        Imie: <input type="text" name="fname" required id="firstname_field">
+        Nazwisko: <input type="text" name="sname" required id="surname_field">
+        email: <input type="email" name="email" id="email_field" required>
+    </form>
 {% endblock %}
 
 {% block expand_java_script_block %}
     <script src={% static 'main_app/by_bank_card_scripts.js' %}></script>
     <script src={% static 'main_app/email_validate.js' %}></script>
     <script>
-    $("#email_field").change(function () {
-        email_ajax_validate("{% url  'main_app:email_validate'%}", $(this).val());
-        console.log(email_validation_flag)
-    })
+        $("#email_field").change(function () {
+            email_ajax_validate("{% url  'main_app:email_validate'%}", $(this).val());
+            console.log(email_validation_flag)
+        })
     </script>
-{%  endblock %}
-
-{% block validate_submit_fun %}
     <script>
-            function  validate_submit() {
-                email_ajax_validate("{% url  'main_app:email_validate'%}", $("#email_field").val());
-                console.log($("#email_field").val(), email_validation_flag);
+        function fun_submit() {
+            if(validate_submit())
+                document.getElementById("pay_form").submit();
+        }
+    </script>
 
-                if($("#firstname_field").val()==='') {
-                    alert("Puste pole z imieniem");
-                    return false;
-                }
-                if($("#surname_field").val()==='') {
-                    alert("Puste pole z nazwiskiem");
-                    return false;
-                }
-                return email_validation_flag;
+    <script>
+        function validate_submit() {
+            email_ajax_validate("{% url  'main_app:email_validate'%}", $("#email_field").val());
+            console.log($("#email_field").val(), email_validation_flag);
+
+            if ($("#firstname_field").val() === '') {
+                alert("Puste pole z imieniem");
+                return false;
             }
+            if ($("#surname_field").val() === '') {
+                alert("Puste pole z nazwiskiem");
+                return false;
+            }
+            return email_validation_flag;
+        }
     </script>
 {% endblock %}
+
+

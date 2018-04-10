@@ -109,7 +109,8 @@ def int_list_field_parse(request, name):
     string_list = string_list_field(request, name)
     return [int(el) for el in string_list]
 
-def add_order_to_base(basket):
+def add_order_to_base(basket, client_id):
+    print(client_id)
     order_var = Order_base(date = timezone.now())
     order_var.save()
     for it, pk in enumerate(basket["id"]) :
@@ -120,6 +121,9 @@ def add_order_to_base(basket):
         #podzielenie zamówienia na produkty
         product_sale = Product_order_base(product = product, order = order_var, price_in_moment=product.price, quantity=basket["quantity"][it])
         product_sale.save()
+    if (client_id != -1):
+        debtor = Debtor_base(order = order_var, client=Client_base.objects.get(pk=client_id))
+        debtor.save()
 def ret_form_of_payment(order):
 
         try:
@@ -131,7 +135,7 @@ def ret_form_of_payment(order):
             return "Gotówką"
 def ret_client_data(order):
     try:
-        return order.debtor.client.firstname +" " + order.debtor.client.surname + "email: "+ order.debtor.client.email
+        return order.debtor.client.firstname +" " + order.debtor.client.surname +" " + "email: "+ order.debtor.client.email
     except Debtor_base.DoesNotExist:
         return "brak danych"
 def single_order_diction_fun(order_id):
@@ -178,7 +182,8 @@ class AjaxAddOrderView(View):
             "quantity": int_list_field_parse(request, "quantity"),
             "price": float_list_field_parse(request, "price"),
         }
-        add_order_to_base(basket)
+        client_id = int(request.POST.get("client_id",  "-1"))
+        add_order_to_base(basket, client_id)
         return JsonResponse(basket) #przesyla z powrotem dla celow testu
 
 
@@ -196,7 +201,11 @@ class Ajax_Email_Validate_View(View):
 
 ajax_email_validate_view = Ajax_Email_Validate_View.as_view()
 
-
+def bank_card_redirect(request):
+    client = add_client(request)
+    return render(request, 'main_app/by_bank_card_redirect.html', {
+        "cilent_id": client.pk,
+    })
 
 def order(request):
     return render(request, 'main_app/order_ext.html')
