@@ -1,9 +1,9 @@
 {% extends "main_app/pay_method_template.html" %}
 {%  load static %}
 {% block expand_pay_method_block %}
-    Imie: <input type="text" name="fname">
-    Nazwisko: <input type="text" name="sname">
-    email: <input type="email" name="email" id="email_field">
+    Imie: <input type="text" name="fname" required>
+    Nazwisko: <input type="text" name="sname" required>
+    email: <input type="email" name="email" id="email_field" required>
 {% endblock %}
 
 {% block expand_java_script_block %}

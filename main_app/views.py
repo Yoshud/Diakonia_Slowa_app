@@ -7,7 +7,7 @@ import datetime
 from django.views import generic
 from django.db.models import Q
 from django.core.validators import EmailValidator, ValidationError
-import json
+
 
 
 def products_to_table(products):
@@ -132,9 +132,9 @@ def single_order_diction_fun(order_id):
         product_sum.append(single_product_sum)
         tuples.append( (order_product , single_product_sum, sales_count(order_product.product.pk)) )
         #sales_tuples.append(sales_count(order_product.pk))
-    print(tuples)
+    #print(tuples)
     order_sum = sum(product_sum)
-    print(ret_form_of_payment(order))
+    #print(ret_form_of_payment(order))
     diction = {
         "order": order,
         "tuples": tuples,
@@ -147,14 +147,14 @@ def sales_count(product_id):
     hours = 7 * 24 + 12
     #print(product_id)
     sales = Product_order_base.objects.filter(product__pk__exact=product_id, order__date__gte = (timezone.now() - datetime.timedelta(hours=hours)))
-    print(Product_order_base.objects.filter(product__pk__exact = product_id, order__date__gte = (timezone.now() - datetime.timedelta(hours=hours))))
+    #print(Product_order_base.objects.filter(product__pk__exact = product_id, order__date__gte = (timezone.now() - datetime.timedelta(hours=hours))))
     sales_quantity = sales.all().count()
     sum_of_sales_product = 0
     for sale in sales:
         sum_of_sales_product += sale.quantity
-        print("pętla:" + str(sum_of_sales_product))
+        #print("pętla:" + str(sum_of_sales_product))
     #return ( sales_quantity, sum_of_sales_product )
-    print("koniec: " + str(sum_of_sales_product))
+    #print("koniec: " + str(sum_of_sales_product))
     return sum_of_sales_product
 
 class AjaxAddOrderView(View):
@@ -183,6 +183,8 @@ class Ajax_Email_Validate_View(View):
             return JsonResponse({"msg": str(error)})
 
 ajax_email_validate_view = Ajax_Email_Validate_View.as_view()
+
+
 
 def order(request):
     return render(request, 'main_app/order_ext.html')
