@@ -22,29 +22,30 @@ function basket_sum() {
 
 //*******************************Wysyłanie danych do backend***************************
 function post(url, client_id=-1) {
-    var tmp = "sending";
     console.log(client_id);
     console.log(basket.diction);
-    $.ajax({
-        url: url,
-        cache: false,
-        type: "POST",
-        data: {
-            "id": basket.field_to_string("id"),
-            "product_name": basket.field_to_string("product_name"),
-            "quantity": basket.field_to_string("quantity"),
-            "price": basket.field_to_string("price"),
-            "client_id": client_id
-        },
-        success: function (data) {
-            console.log(data);
-        },
+    if(basket.field_to_string("id")!=="" && client_id!==-2) {  //wysłanie tylko gdy koszyk nie pusty
+        $.ajax({
+            url: url,
+            cache: false,
+            type: "POST",
+            data: {
+                "id": basket.field_to_string("id"),
+                "product_name": basket.field_to_string("product_name"),
+                "quantity": basket.field_to_string("quantity"),
+                "price": basket.field_to_string("price"),
+                "client_id": client_id
+            },
+            success: function (data) {
+                console.log(data);
+            },
 
-        beforeSend: function (xhr, settings) {
-            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                // Only send the token to relative URLs i.e. locally.
-                xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
+            beforeSend: function (xhr, settings) {
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
+                }
             }
-        }
-    });
+        });
+    }
 }

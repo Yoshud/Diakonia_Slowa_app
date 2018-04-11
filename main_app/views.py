@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Product_base, Order_base, Product_order_base, Debtor_base, Client_base
 from django.views.generic import View
@@ -81,13 +81,14 @@ def add_client(request):
     fname = request.POST.get('fname', ' ')
     sname = request.POST.get('sname', ' ')
     email = request.POST.get('email', ' ')
-    print(fname, sname, email)
-    try:
-        client = Client_base.objects.get(firstname=fname, surname=sname, email=email)
-    except:
-        client = Client_base(firstname=fname, surname=sname, email=email)
-        client.save()
-    return client
+    if(email!=' ' or fname != ' ' and sname!= ' '):
+        print(fname, sname, email)
+        try:
+            client = Client_base.objects.get(firstname=fname, surname=sname, email=email)
+        except:
+            client = Client_base(firstname=fname, surname=sname, email=email)
+            client.save()
+        return client
 
 class AjaxProductView(View):
     def post(self, request, **kwargs):
@@ -203,9 +204,18 @@ ajax_email_validate_view = Ajax_Email_Validate_View.as_view()
 
 def bank_card_redirect(request):
     client = add_client(request)
+    try:
+        client_id = client.pk
+    except:
+        client_id = -2
+
     return render(request, 'main_app/by_bank_card_redirect.html', {
-        "cilent_id": client.pk,
+        "cilent_id": client_id,
     })
+
+def add_client_view(request):
+    client = add_client(request)
+
 
 def order(request):
     return render(request, 'main_app/order_ext.html')

@@ -1,4 +1,5 @@
 {% load static %}
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src={% static 'main_app/basket.js' %}></script>
@@ -6,11 +7,12 @@
 <script>
     $(document).ready(function () {
             console.log({{ cilent_id }});
-            post(" {%  url 'main_app:ajax-add-order-view' %} ", {{ cilent_id }} );
-            basket_class.clear_storage();
-            basket.reset();
-            alert("Zamówienie dodano poprawnie");
-            window.open(" {% url 'main_app:main_page' %}", "_self");
+            post("{%  url 'main_app:ajax-add-order-view' %} ", {{ cilent_id }});
+            if (parseInt({{ cilent_id }}) !== -2) {
+                basket_class.clear_storage();
+                basket.reset();
+            }
+            window.location.replace("{% url "main_app:main_page" %}")
         }
     )
 </script>
