@@ -5,7 +5,7 @@ from .models import Product_base, Product_order_base, Order_base, Debtor_base, C
     Realisation_tag_base, Order_extern_base, Order_extern_realisation_base, Product_order_extern_realisation_base, \
     Tech_tag_base
 
-AdminSite.site_header = "SYNOD alpha 1.12 Django administration"
+AdminSite.site_header = "SYNOD alpha 1.13 Django administration"
 
 
 class Product_order_InLine(admin.TabularInline):
