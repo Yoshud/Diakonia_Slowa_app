@@ -1,0 +1,15 @@
+{% extends 'main_app/template_page.html' %}
+
+{% block main_table_block %}
+
+    <td style="width: 15%"></td>
+    <td>
+        <div style="width: 100%; height: 100%">
+            <table class="main_page_table">
+                {% block content_table_block %}{% endblock %}
+            </table>
+        </div>
+
+    </td>
+
+{% endblock %}
