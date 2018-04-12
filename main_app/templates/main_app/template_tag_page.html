@@ -1,8 +1,20 @@
 {% extends 'main_app/template_page.html' %}
-
+{% load static %}
 {% block main_table_block %}
 
-    <td style="width: 15%"></td>
+    <td style="width: 15%">
+        <div>
+            <table id="added_tags"></table>
+            <table id="tags_to_add">
+                {% for tag in tags %}
+                    <tr>
+                        <td id="tag_{{ tag.pk }}" style="text-align: center; height: 20px">
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </td>
     <td>
         <div style="width: 100%; height: 100%">
             <table class="main_page_table">
@@ -11,5 +23,13 @@
         </div>
 
     </td>
+    <script src="{% static 'main_app/tag_scripts.js' %}" ></script>
+    <script src="{% static 'main_app/ajax_product_search.js' %}" ></script>
+    <script>
+        let Tag_obj = new Tag_class({{ tags|safe }});
+        $(document).ready(function () {
+            console.log("cos", Tag_obj.tags, Tag_obj.added_tags);
 
+        });
+    </script>
 {% endblock %}
