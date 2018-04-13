@@ -30,7 +30,7 @@ def products_to_table(products):
 def sought_products(string):
     products = Product_base.objects.all()
     for word in string.split(' '):
-        products = products.filter(Q(tag__tag__startswith=word) | Q(product_name__contains=word)).distinct()
+        products = products.filter(Q(tag__tag__istartswith=word) | Q(product_name__icontains=word)).distinct()
     products = products.order_by("product_name")
     return products_to_table(products)
 
