@@ -44,8 +44,8 @@ class Product_base(models.Model):
     price = models.DecimalField("cena", max_digits=5, decimal_places=2, default=0.00)
     quantity = models.IntegerField("Ilość", default=0)
     tag = models.ManyToManyField(Tag_base, related_name="product", blank=True)
+    position = models.ForeignKey(On_Shelf_Position_base, related_name='product', blank=True, null=True, on_delete=models.CASCADE)
     tech_tag = models.ManyToManyField(Tech_tag_base, related_name="product", blank=True)
-    position = models.ForeignKey(On_Shelf_Position_base, related_name='product', blank=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'produkt'
