@@ -58,8 +58,9 @@ def sought_products(string):
     string = string_cat(string)
     products = Product_base.objects.all()
     print (string)
-    for word in string.split(','):
+    for word in string.split(' '):
         products = products.filter(Q(tag__tag__istartswith=word) | Q(product_name__icontains=word)).distinct()
+        print(products)
     products = products.order_by("product_name")
     # print (products)
     return products_to_table(products)
