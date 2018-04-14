@@ -28,6 +28,10 @@ class Added_tags {
             return before + " " + tag.name;
         }, "");
     }
+    product_search(){
+        str_from_tag_system = this.to_search_val();
+        post();
+    }
     add(tag, pk) {
         let row_ref = this.table_ref.insertRow();
         let new_tag = new Tag(tag, pk, row_ref);
@@ -67,13 +71,14 @@ class Added_tags {
         tag.write();
         this.create_delete_cell(row_ref, tag);
         console.log("to_search", this.to_search_val());
-        //order_post();
+        this.product_search();
     }
 
     delete_from_added(tag) {
         this.table_ref.deleteRow(tag.row_ref.rowIndex);
         this.tags.splice(this.tags.indexOf(tag), 1);
         this.to_add_tags_ref.add_tag(tag);
+        this.product_search();
     }
 
     Tags_obj_register(to_add_tags_ref) {

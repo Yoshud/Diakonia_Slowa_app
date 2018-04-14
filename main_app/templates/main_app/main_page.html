@@ -1,4 +1,4 @@
-{%  extends "main_app/template_page.html" %}
+{%  extends "main_app/template_tag_page.html" %}
 {% block bar_table_block %}
     <tr style="height: 40%">
                     <td style="text-align: left; width: 50%"><a href="{% url 'main_app:order' %}">Złóż zamówienie</a>
@@ -13,7 +13,7 @@
                     <td style="text-align: left;width: 50%"><input type="button" id="search_button" value="Szukaj"></td>
                 </tr>
 {% endblock %}
-{% block main_table_block %}
+{% block content_table_block %}
     <tr>
                     <td style="text-align: left; width: 65%;border-right-style: dotted; border-width: thin; border-color: black">
                         <div>

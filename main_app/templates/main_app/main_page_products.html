@@ -7,10 +7,10 @@
         //eventy podczas których wywołujemy zapytanie ajax
         $("#search_value").on('input', post);
         $(document).ready(post);
-
+        let str_from_tag_system="";
         ///funkcja wysyłająca zapytania ajax do bazy w celu pobrania danych na podstawie wyszukiwania a nastepnie wywołująca rysowanie odpowiednich tabelek
         function post() {
-            ajax_post("{% url 'main_app:ajax-product-view' %}", $("#search_value").val(), function (data) {
+            ajax_post("{% url 'main_app:ajax-product-view' %}", $("#search_value").val() + str_from_tag_system, function (data) {
                     console.log(data.product_name);
                     write_main_page_product("product_table", data);
                 });

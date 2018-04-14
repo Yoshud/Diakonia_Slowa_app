@@ -9,11 +9,12 @@
         //*************Zmienna globalna używana też w pliku BUSKET_SCRIPT opakowane w klase dla ew. przyszłego rozwoju!!!!***********************
         let data_obj = new Data_class();
         //*******************************************Funkcje i eventy****************************************************
-        $("#search_value_order").on('input', order_post);
-        $(document).ready(order_post);
+        $("#search_value_order").on('input', post);
+        $(document).ready(post);
+        let str_from_tag_system="";
 
-        function order_post() {
-            ajax_post("{% url 'main_app:ajax-product-view' %}", $("#search_value_order").val(), function (data) {
+        function post() {
+            ajax_post("{% url 'main_app:ajax-product-view' %}", $("#search_value_order").val() + str_from_tag_system, function (data) {
                     data_obj.set(data);
                     console.log(data_obj.data);
                     write_order_page_product_table("product_table");
