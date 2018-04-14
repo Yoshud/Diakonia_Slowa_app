@@ -127,7 +127,7 @@ class To_add_Tags {
     }
 
     write_table(search = '') {
-        t_delete(this.table_ref);
+        t_delete(this.table_ref,0);
         // let sought_tags = this.tags.filter(function (tag) {
         //     return To_add_Tags.string_icontains(tag, search);
         // });

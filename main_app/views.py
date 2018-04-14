@@ -26,21 +26,28 @@ def tags_to_table(tags=Tag_base.objects.all()):
     }
     # return name
 
+
 def products_to_table(products):
-    name = []
-    price = []
-    quantity = []
-    pk = []
-    for product in products:
+    def add_to_table(name, price, quantity, pk):
         name.append(product.product_name)
         price.append(product.price)
         quantity.append(product.quantity)
         pk.append(product.pk)
+
+    name, price, quantity, pk = [], [], [], []
+    name_zero, price_zero, quantity_zero, pk_zero = [], [], [], []
+
+    for product in products:  # dzięki temu produkty których nie ma sa na końcu
+        if product.quantity > 0:
+            add_to_table(name, price, quantity, pk)
+        if product.quantity == 0:
+            add_to_table(name_zero, price_zero, quantity_zero, pk_zero)
+
     return {
-        'product_name': name,
-        'price': price,
-        'quantity': quantity,
-        'pk': pk,
+        'product_name': name + name_zero,
+        'price': price + price_zero,
+        'quantity': quantity + quantity_zero,
+        'pk': pk + pk_zero,
     }
 
 
@@ -50,13 +57,6 @@ def sought_products(string):
         products = products.filter(Q(tag__tag__istartswith=word) | Q(product_name__icontains=word)).distinct()
     products = products.order_by("product_name")
     return products_to_table(products)
-
-
-def sought_tags(string):
-    tags = Tag_base.objects.all()
-    tags = tags.filter(tag__contains=string).distinct()
-    tags.order_by('tag')
-    return tags_to_table(tags)
 
 
 def abridged_orders():
