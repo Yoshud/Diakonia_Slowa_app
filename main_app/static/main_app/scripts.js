@@ -59,7 +59,7 @@ function update_sum(id, price, max_quantity, number_tag = "number_", sum_tag = "
     let cell_ref = document.getElementById(sum_tag+id);
     cell_ref.innerText = how_many * price+ "zł";
 }
-function t_delete(table_ref, begin, end) {
+function t_delete(table_ref, begin = 1, end = table_ref.rows.length) {
     for (let it = begin; it < end; it++) {
         table_ref.deleteRow(begin);
     }
@@ -73,3 +73,10 @@ function newcell(text, Row) {
     return newCell
 }
 
+function add_style(element, diction) {
+    console.log(element, diction);
+    //element.style.color = "red";
+    for(let [name, value] of Object.entries(diction) ){
+        element.style[name] = value;
+    }
+}

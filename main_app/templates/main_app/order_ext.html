@@ -9,10 +9,10 @@
         //*************Zmienna globalna używana też w pliku BUSKET_SCRIPT opakowane w klase dla ew. przyszłego rozwoju!!!!***********************
         let data_obj = new Data_class();
         //*******************************************Funkcje i eventy****************************************************
-        $("#search_value_order").on('input', post);
-        $(document).ready(post);
+        $("#search_value_order").on('input', order_post);
+        $(document).ready(order_post);
 
-        function post() {
+        function order_post() {
             ajax_post("{% url 'main_app:ajax-product-view' %}", $("#search_value_order").val(), function (data) {
                     data_obj.set(data);
                     console.log(data_obj.data);
