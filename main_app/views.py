@@ -50,12 +50,18 @@ def products_to_table(products):
         'pk': pk + pk_zero,
     }
 
-
+def string_cat(string, to_cat = " "):
+    if string.startswith(to_cat):
+        string = string_cat(string[1:])
+    return string
 def sought_products(string):
+    string = string_cat(string)
     products = Product_base.objects.all()
-    for word in string.split(' '):
+    print (string)
+    for word in string.split(','):
         products = products.filter(Q(tag__tag__istartswith=word) | Q(product_name__icontains=word)).distinct()
     products = products.order_by("product_name")
+    # print (products)
     return products_to_table(products)
 
 
