@@ -77,7 +77,7 @@ def sought_products_recur(products, string_split, lists=list()):  # potrzebna op
     if (len(string_split) == 0):  # warunek końca rekurencji
         return products
     word = string_split[0]
-    lists = list(filter(lambda list, word=word: word == list[0], lists))
+    lists = list(filter(lambda list, word=word: list[0].find(word)!=-1, lists))
     word_in_list = len(lists) > 0
     if word_in_list:
         products = products.filter(tag__tag__icontains=word).distinct()
