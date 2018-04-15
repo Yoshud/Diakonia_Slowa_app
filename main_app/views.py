@@ -4,6 +4,8 @@ from .models import Product_base, Order_base, Product_order_base, Debtor_base, C
 from django.views.generic import View
 from django.utils import timezone
 import datetime
+from functools import reduce
+
 from django.core.serializers import serialize
 from django.views import generic
 from django.db.models import Q
@@ -50,19 +52,58 @@ def products_to_table(products):
         'pk': pk + pk_zero,
     }
 
-def string_cat(string, to_cat = " "):
+
+def string_from_begin_cat(string, to_cat=" "):
     if string.startswith(to_cat):
-        string = string_cat(string[1:])
+        string = string_from_begin_cat(string[1:])
     return string
-def sought_products(string):
-    string = string_cat(string)
-    products = Product_base.objects.all()
-    print (string)
-    for word in string.split(' '):
+
+
+def tag_with_space(tag):
+    return len(tag.tag.split(' ')) > 1
+
+
+def tag_to_list(ret, tag):
+    # print ("ret: " + str(ret))
+    ret.append(tag.tag.split(' ')[1:])
+    return ret
+
+
+def tags_in_products(lis, product):
+    # print("lis" + str(lis))
+    return (lis.distinct() | product.tag.distinct())
+
+
+def list_of_list_of_tags_names_with_space(products):
+    return reduce(tag_to_list,
+                  list(filter(tag_with_space, reduce(tags_in_products, products, Tag_base.objects.none()))), list())
+
+
+def sought_recur(products, string_split, lists=list()):  # potrzebna optymalizacja
+
+    if (len(string_split) == 0):  # warunek końca rekurencji
+        return products
+    word = string_split[0]
+    lists = list(filter(lambda list, word=word: word == list[0], lists))
+    word_in_list = len(lists) > 0
+    if word_in_list:
+        products = products.filter(tag__tag__icontains=word).distinct()
+        lists_next = list(map(lambda list: list[1:], lists))
+        if lists_next == [[]]: lists_next = list()
+        products = sought_recur(products, string_split[1:], lists_next)
+    else:
         products = products.filter(Q(tag__tag__istartswith=word) | Q(product_name__icontains=word)).distinct()
-        print(products)
+        lists = list_of_list_of_tags_names_with_space(products)
+        products = sought_recur(products, string_split[1:], lists)
+    return products
+
+
+def sought_products(string):
+    string = string_from_begin_cat(string)
+    products = Product_base.objects.all()
+    print(string)
+    products = sought_recur(products, string.split(' '))
     products = products.order_by("product_name")
-    # print (products)
     return products_to_table(products)
 
 
