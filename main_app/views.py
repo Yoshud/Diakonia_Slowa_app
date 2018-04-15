@@ -5,13 +5,8 @@ from django.views.generic import View
 from django.utils import timezone
 import datetime
 from functools import reduce
-
-from django.core.serializers import serialize
-from django.views import generic
 from django.db.models import Q
 from django.core.validators import EmailValidator, ValidationError
-# from django.utils import simplejson
-import json
 
 
 def tags_to_table(tags=Tag_base.objects.all()):
@@ -20,13 +15,11 @@ def tags_to_table(tags=Tag_base.objects.all()):
     for tag in tags:
         name.append(tag.tag)
         pk.append(tag.pk)
-    # print (pk)
-    # print (name)
+
     return {
         'tag': name,
         'pk': pk,
     }
-    # return name
 
 
 def products_to_table(products):
@@ -79,7 +72,7 @@ def list_of_list_of_tags_names_with_space(products):
                   list(filter(tag_with_space, reduce(tags_in_products, products, Tag_base.objects.none()))), list())
 
 
-def sought_recur(products, string_split, lists=list()):  # potrzebna optymalizacja
+def sought_products_recur(products, string_split, lists=list()):  # potrzebna optymalizacja
 
     if (len(string_split) == 0):  # warunek końca rekurencji
         return products
@@ -90,11 +83,11 @@ def sought_recur(products, string_split, lists=list()):  # potrzebna optymalizac
         products = products.filter(tag__tag__icontains=word).distinct()
         lists_next = list(map(lambda list: list[1:], lists))
         if lists_next == [[]]: lists_next = list()
-        products = sought_recur(products, string_split[1:], lists_next)
+        products = sought_products_recur(products, string_split[1:], lists_next)
     else:
         products = products.filter(Q(tag__tag__istartswith=word) | Q(product_name__icontains=word)).distinct()
         lists = list_of_list_of_tags_names_with_space(products)
-        products = sought_recur(products, string_split[1:], lists)
+        products = sought_products_recur(products, string_split[1:], lists)
     return products
 
 
@@ -102,7 +95,7 @@ def sought_products(string):
     string = string_from_begin_cat(string)
     products = Product_base.objects.all()
     print(string)
-    products = sought_recur(products, string.split(' '))
+    products = sought_products_recur(products, string.split(' '))
     products = products.order_by("product_name")
     return products_to_table(products)
 
@@ -242,7 +235,6 @@ def sales_count(product_id):
     # print(product_id)
     sales = Product_order_base.objects.filter(product__pk__exact=product_id,
                                               order__date__gte=(timezone.now() - datetime.timedelta(hours=hours)))
-    # print(Product_order_base.objects.filter(product__pk__exact = product_id, order__date__gte = (timezone.now() - datetime.timedelta(hours=hours))))
     sales_quantity = sales.all().count()
     sum_of_sales_product = 0
     for sale in sales:
