@@ -3,9 +3,9 @@ from django.contrib.admin import AdminSite
 
 from .models import Product_base, Product_order_base, Order_base, Debtor_base, Client_base, Tag_base, \
     Realisation_tag_base, Order_extern_base, Order_extern_realisation_base, Product_order_extern_realisation_base, \
-    Tech_tag_base
+    Tech_tag_base, On_Shelf_Position_base
 
-AdminSite.site_header = "SYNOD alpha 1.13 Django administration"
+AdminSite.site_header = "SYNOD alpha 1.1.4 Django administration"
 
 
 class Product_order_InLine(admin.TabularInline):
@@ -90,5 +90,6 @@ admin.site.register(Realisation_tag_base, Realisation_tag_base_admin)
 admin.site.register(Order_extern_base)
 admin.site.register(Order_extern_realisation_base)
 admin.site.register(Product_order_extern_realisation_base)
+admin.site.register(On_Shelf_Position_base)
 
 # Register your models here.

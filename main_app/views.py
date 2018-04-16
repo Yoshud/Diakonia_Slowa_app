@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+﻿from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Product_base, Order_base, Product_order_base, Debtor_base, Client_base, Tag_base
 from django.views.generic import View
@@ -30,7 +30,7 @@ def products_to_table(products):
 def sought_products(string):
     products = Product_base.objects.all()
     for word in string.split(' '):
-        products = products.filter(Q(tag__tag__startswith=word) | Q(product_name__contains=word)).distinct()
+        products = products.filter(Q(tag__tag__istartswith=word) | Q(product_name__icontains=word)).distinct()
     products = products.order_by("product_name")
     return products_to_table(products)
 
