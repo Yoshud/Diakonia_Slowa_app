@@ -249,17 +249,18 @@ def single_product_diction_fun_to_tuple(product_order):
 # price_sum + (order.quantity * order.price_in_moment)
 def single_product_diction_fun(product_pk):
     product = get_object_or_404(Product_base, pk=product_pk)
+    product_orders = product.product_order_base_set.all().order_by('-order__date')
     print("reduce")
-    price_sum = reduce(lambda price_sum, order: price_sum+ float(order.quantity * order.price_in_moment),
-                       product.product_order_base_set.all(), 0.0)
+    price_sum = reduce(lambda price_sum, order: price_sum+ float(order.quantity * order.price_in_moment), product_orders, 0.0)
     print(price_sum)
-    function_returning_tuples_with_information_about_every_single_product_order = map(single_product_diction_fun_to_tuple, product.product_order_base_set.all())
+    function_returning_tuples_with_information_about_every_single_product_order = map(single_product_diction_fun_to_tuple, product_orders)
     tuples = list(function_returning_tuples_with_information_about_every_single_product_order)
     print(tuples)
     return {
         "product": product,
         "tuples": tuples,
         "price_sum": price_sum,
+        "sales_count": sales_count(product_pk)
     }
    
 

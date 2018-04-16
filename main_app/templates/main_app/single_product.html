@@ -1,45 +1,47 @@
-{#{% extends 'main_app/template_page.html' %}#}
-{#% load static %}#}
-{#{% block scripts_links_block %}#}
-{#{% endblock %}#}
-{##}
-{#{% block bar_table_block %}#}
-{#    <tr style="height: 5%">#}
-{#        <td id="order_sum_field" style="color: blue; text-align: left; padding-left: 10px "> Kwota zamówienia: {{ order_sum }} zł</td>#}
-{#        <td id="order_date_field" style="color: blue; text-align: right; padding-right: 10px ">#}
-{#            Data: {{ order.date.date }} godz. {{ order.date.time }}</td>#}
-{#    </tr>#}
-{#    <tr style="height: 5%">#}
-{#        <td id="order_sum_field" style="color: blue; text-align: left; padding-left: 10px "> Typ płatności: {{ form_of_payment }}</td>#}
-{#        <td id="order_date_field" style="color: blue; text-align: right; padding-right: 10px "> Dane klienta: {{ client_data }}</td>#}
-{#    </tr>#}
-{#{% endblock %}#}
-{##}
-{#{% block main_table_block %}#}
-{#    <table class="text_table left_table main_page_table" style="height: auto">#}
-{#        <tr>#}
-{#            <th style="width: 30%">Nazwa produktu</th>#}
-{#            <th style="width: 10%">Ilość</th>#}
-{#            <th style="width: 10%">Cena</th>#}
-{#            <th style="width: 10%">Suma</th>#}
-{#            <th style="width: 10%">Ilość (magazyn)</th>#}
-{#            <th style="width: 20%">Sprzedaż w ostatnim tygodniu</th>#}
-{#            <th style="width: 10%"> Cena aktualna</th>#}
-{#        </tr>#}
-{#        {% for product_order, sum, sales_tuples in tuples %}#}
-{#            <tr>#}
-{#                <td> {{ product_order.product.product_name }}</td>#}
-{#                <td> {{ product_order.quantity }}</td>#}
-{#                <td> {{ product_order.price_in_moment }} zł</td>#}
-{#                <td> {{ sum }} zł</td>#}
-{#                <td> {{ product_order.product.quantity }}</td>#}
-{#                <td> {{ sales_tuples }}</td>#}
-{#                <td> {{ product_order.product.price }} zł</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{##}
-{#    </table>#}
-{#{% endblock %}#}
+{% extends 'main_app/template_page.html' %}
+% load static %}
+{% block scripts_links_block %}
+{% endblock %}
+
+{% block bar_table_block %}
+    <tr style="height: 5%">
+        <td style="color: blue; text-align: left; padding-left: 10px "> Nazwa: {{ product.product_name }} </td>
+        <td style="color: blue; text-align: right; padding-right: 10px ">
+            Cena: {{ product.price }}zł</td>
+    </tr>
+    <tr style="height: 5%">
+        <td style="color: blue; text-align: left; padding-left: 10px "> Sprzedaż w tygodniu: {{ sales_count }} </td>
+        <td style="color: blue; text-align: right; padding-right: 10px "> Ilość na magazynie: {{ product.quantity }}</td>
+    </tr>
+    <tr style="height: 5%">
+        <td style="color: blue; text-align: left; padding-left: 10px ">Przewidywany termin końca:  </td>
+        <td style="color: blue; text-align: right; padding-right: 10px "> Suma utargu: {{ price_sum }}zł</td>
+    </tr>
+{% endblock %}
+
+{% block main_table_block %}
+    <table class="text_table left_table main_page_table" style="height: auto">
+        <tr>
+            <th style="width: 30%">Data</th>
+            <th style="width: 10%">Ile sprzedano</th>
+            <th style="width: 10%">Cena sprzedaży</th>
+            <th style="width: 10%">Suma</th>
+            <th style="width: 10%">Formy płatności</th>
+            <th style="width: 20%">Klient</th>
+        </tr>
+        {% for product_order, sum, form_of_paymant, client_data in tuples %}
+            <tr>
+                <td> {{ product_order.order.date }}</td>
+                <td> {{ product_order.quantity }}</td>
+                <td> {{ product_order.price_in_moment }} zł</td>
+                <td> {{ sum }} zł</td>
+                <td> {{ form_of_paymant }}</td>
+                <td> {{ client_data }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+{% endblock %}
 {##}
 {##}
 {#{% block java_scripts_block %}#}
