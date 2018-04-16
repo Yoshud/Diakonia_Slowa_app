@@ -6,13 +6,12 @@
 <script src={% static 'main_app/pay_script.js' %}></script>
 <script>
     $(document).ready(function () {
-            console.log({{ cilent_id }});
-            post("{%  url 'main_app:ajax-add-order-view' %} ", {{ cilent_id }});
-            if (parseInt({{ cilent_id }}) !== -2) {
+            console.log({{ client_id }});
+            post_basket_with_possible_redirect("{%  url 'main_app:ajax-add-order-view' %}", {{ client_id }}, "{% url "main_app:main_page" %}");
+            if (parseInt({{ client_id }}) !== -2) {
                 basket_class.clear_storage();
                 basket.reset();
             }
-            window.location.replace("{% url "main_app:main_page" %}")
         }
     )
 </script>

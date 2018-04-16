@@ -21,7 +21,7 @@ function basket_sum() {
 }
 
 //*******************************Wysyłanie danych do backend***************************
-function post(url, client_id=-1) {
+function post_basket_with_possible_redirect(url, client_id = -1, url_redirect = "-1") {
     console.log(client_id);
     console.log(basket.diction);
     if(basket.field_to_string("id")!=="" && client_id!==-2) {  //wysłanie tylko gdy koszyk nie pusty
@@ -38,6 +38,8 @@ function post(url, client_id=-1) {
             },
             success: function (data) {
                 console.log(data);
+                if(url_redirect !=='-1')
+                    window.location.replace(url_redirect);
             },
 
             beforeSend: function (xhr, settings) {

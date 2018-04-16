@@ -23,7 +23,7 @@
     <script>
         function fun_submit() {
             if (validate_submit()) {
-                post(" {%  url 'main_app:ajax-add-order-view' %} ");
+                post_basket_with_possible_redirect(" {%  url 'main_app:ajax-add-order-view' %} ");
                 document.getElementById("pay_form").submit();
                 basket_class.clear_storage();
                 basket.reset()

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Product_base, Order_base, Product_order_base, Debtor_base, Client_base, Tag_base
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from django.utils import timezone
 import datetime
 from functools import reduce
@@ -77,7 +77,7 @@ def sought_products_recur(products, string_split, lists=list()):  # potrzebna op
     if (len(string_split) == 0):  # warunek końca rekurencji
         return products
     word = string_split[0]
-    lists = list(filter(lambda list, word=word: list[0].find(word)!=-1, lists))
+    lists = list(filter(lambda list, word=word: list[0].find(word) != -1, lists))
     word_in_list = len(lists) > 0
     if word_in_list:
         products = products.filter(tag__tag__icontains=word).distinct()
@@ -231,19 +231,37 @@ def single_order_diction_fun(order_id):
 
 
 def sales_count(product_id):
-    hours = 7 * 24 + 12
+    hours = 7 * 24 + 5
     # print(product_id)
     sales = Product_order_base.objects.filter(product__pk__exact=product_id,
                                               order__date__gte=(timezone.now() - datetime.timedelta(hours=hours)))
     sales_quantity = sales.all().count()
-    sum_of_sales_product = 0
-    for sale in sales:
-        sum_of_sales_product += sale.quantity
-        # print("pętla:" + str(sum_of_sales_product))
+    sum_of_sales_product = reduce(lambda sum_of_sales, sale: sum_of_sales + sale.quantity, sales, 0)
     # return ( sales_quantity, sum_of_sales_product )
-    # print("koniec: " + str(sum_of_sales_product))
     return sum_of_sales_product
 
+
+def single_product_diction_fun_to_tuple(product_order):
+    single_product_order_sum = product_order.quantity * product_order.price_in_moment
+
+    return (product_order, single_product_order_sum, ret_form_of_payment(product_order.order), ret_client_data(product_order.order))
+
+# price_sum + (order.quantity * order.price_in_moment)
+def single_product_diction_fun(product_pk):
+    product = get_object_or_404(Product_base, pk=product_pk)
+    print("reduce")
+    price_sum = reduce(lambda price_sum, order: price_sum+ float(order.quantity * order.price_in_moment),
+                       product.product_order_base_set.all(), 0.0)
+    print(price_sum)
+    function_returning_tuples_with_information_about_every_single_product_order = map(single_product_diction_fun_to_tuple, product.product_order_base_set.all())
+    tuples = list(function_returning_tuples_with_information_about_every_single_product_order)
+    print(tuples)
+    return {
+        "product": product,
+        "tuples": tuples,
+        "price_sum": price_sum,
+    }
+   
 
 class AjaxProductView(View):
     def post(self, request, **kwargs):
@@ -303,7 +321,7 @@ def bank_card_redirect(request):
         client_id = -2
 
     return render(request, 'main_app/by_bank_card_redirect.html', {
-        "cilent_id": client_id,
+        "client_id": client_id,
     })
 
 
@@ -333,3 +351,7 @@ def pay_method(request):
 
 def single_order(request, pk):
     return render(request, 'main_app/single_order.html', single_order_diction_fun(pk))
+
+
+def single_product_view(request, pk):
+    return render(request, 'main_app/single_product.html', single_product_diction_fun(pk))

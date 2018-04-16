@@ -13,6 +13,11 @@ function write_main_page_product(table_ID, data) {
         for (it in data.product_name) {
             flag = true;
             let newRow = table_ref.insertRow();
+            let pk = data.pk[it];
+            newRow.addEventListener('click', function () {
+                console.log(pk, url_to_single_product_view(pk));
+                window.open( url_to_single_product_view(pk))
+            });
             newcell(data.product_name[it], newRow);
             newcell(data.quantity[it], newRow);
             newcell(data.price[it] + " zł", newRow);

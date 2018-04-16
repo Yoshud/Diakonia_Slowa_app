@@ -14,6 +14,7 @@ urlpatterns = [
     path('order/<int:pk>/', views.single_order, name='single_order'),
     path('email_validate', views.ajax_email_validate_view, name='email_validate'),
     path('order/pay_method/by_bank_card/redirect', views.bank_card_redirect, name='by_bank_card_redirect'),
+    path('single_product/<int:pk>/', views.single_product_view, name='single_product'),
 ]
 
 #, name='by_transfer_redirect'

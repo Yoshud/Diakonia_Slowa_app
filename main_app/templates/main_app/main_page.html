@@ -61,6 +61,14 @@
                 </tr>
 {% endblock %}
 {% block java_scripts_block %}
+    <script>
+        {#function url_to_single_product_view(product_pk=1){#}
+        {#    console.log(product_pk.toString());#}
+        {#    //console.log( "{% url 'main_app:single_product' %}")#}
+        function url_to_single_product_view(product_pk){
+            return "{% url 'main_app:single_product' pk=12345678 %}".replace(/12345678/, product_pk.toString() )
+        }
+    </script>
      {% block java_script_block %}{% endblock %}
     {% block java_script_last_order %}{% endblock %}
 {% endblock %}
