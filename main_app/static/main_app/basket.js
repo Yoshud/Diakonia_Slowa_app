@@ -100,10 +100,10 @@ class basket_class {
     sum() {
         let sum = 0;
         for (let it in this.diction["price"]) {
-            sum += this.diction["price"][it] * this.diction["quantity"][it];
+            sum += parseFloat(float_string_decimal_places(this.diction["price"][it] * this.diction["quantity"][it]));
             //console.log(this.diction["price"], this.diction["quantity"])
         }
-        return sum;
+        return float_string_decimal_places( sum);
     }
 
     add_product(product_name, id, quantity, price) {

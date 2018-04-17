@@ -7,7 +7,7 @@ import datetime
 from functools import reduce
 from django.db.models import Q
 from django.core.validators import EmailValidator, ValidationError
-
+from decimal import *
 
 def tags_to_table(tags=Tag_base.objects.all()):
     name = []
@@ -213,7 +213,7 @@ def single_order_diction_fun(order_id):
     product_sum = []
     sales_tuples = []
     for order_product in order.product_order_base_set.all():
-        single_product_sum = order_product.quantity * order_product.price_in_moment
+        single_product_sum = Decimal(order_product.quantity * order_product.price_in_moment)
         product_sum.append(single_product_sum)
         tuples.append((order_product, single_product_sum, sales_count(order_product.product.pk)))
         # sales_tuples.append(sales_count(order_product.pk))
@@ -251,7 +251,7 @@ def single_product_diction_fun(product_pk):
     product = get_object_or_404(Product_base, pk=product_pk)
     product_orders = product.product_order_base_set.all().order_by('-order__date')
     print("reduce")
-    price_sum = reduce(lambda price_sum, order: price_sum+ float(order.quantity * order.price_in_moment), product_orders, 0.0)
+    price_sum = reduce(lambda price_sum, order: price_sum+ Decimal(order.quantity * order.price_in_moment), product_orders, Decimal(0))
     print(price_sum)
     function_returning_tuples_with_information_about_every_single_product_order = map(single_product_diction_fun_to_tuple, product_orders)
     tuples = list(function_returning_tuples_with_information_about_every_single_product_order)

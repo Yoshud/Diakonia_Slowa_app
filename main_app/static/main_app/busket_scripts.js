@@ -64,7 +64,7 @@ function write_busket_table(table_ID = "busket_table", data = basket.diction) {
         let quantity_cell_ref = newcell(data["quantity"][it], newRow);
 
 
-        let cell = newcell((data["quantity"][it] * data["price"][it]) + "zł", newRow);
+        let cell = newcell(float_string_decimal_places(data["quantity"][it] * data["price"][it]) + "zł", newRow);
         cell.setAttribute("id", "basket_sum_" + data["id"][it]);
 
         cell = newRow.insertCell();
