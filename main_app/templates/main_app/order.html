@@ -1,4 +1,4 @@
-{%  extends "main_app/template_page.html" %}
+{%  extends "main_app/template_tag_page.html" %}
 {% load static %}
 {% block scripts_links_block %}
     <script src={% static 'main_app/basket.js' %}></script>
@@ -17,17 +17,17 @@
                     <td id="basket_sum_field" style="color: blue; text-align: end; padding-right: 10px "></td>
                 </tr>
 {% endblock %}
-{% block main_table_block %}
+{% block content_table_block %}
     <tr>
           <td style="text-align: left; width: 60%;border-right-style: dotted; border-width: thin; border-color: black">
                         <div>
                             <table class="text_table left_table script_writing_table" id="product_table">
                                 <tr>
-                                    <th style="width: 40%">Nazwa</th>
+                                    <th style="width: 50%">Nazwa</th>
                                     <th style="width: 10%">Ilość</th>
-                                    <th style="width: 15%">Cena zł/szt</th>
+                                    <th style="width: 10%">Cena zł/szt</th>
                                     <th style="width: 10%">Ile</th>
-                                    <th style="width: 15%">Suma</th>
+                                    <th style="width: 10%">Suma</th>
                                     <th style="width: 10%">Dodaj</th>
 
                                 </tr>
@@ -46,9 +46,9 @@
                             <table class="text_table right_table script_writing_table" id="busket_table">
 
                                 <tr>
-                                    <th style="width: 50%">Nazwa</th>
+                                    <th style="width: 55%">Nazwa</th>
                                     <th style="width: 15%">Ilość</th>
-                                    <th style="width: 20%">Suma</th>
+                                    <th style="width: 15%">Suma</th>
                                     <th style="width: 15%">Edytuj</th>
                                 </tr>
                                 <tr>

@@ -2,33 +2,18 @@
 {% block java_script_block %}
     {% load static %}
     <script src={%  static 'main_app/scripts.js' %}></script>
+    <script src={% static 'main_app/ajax_product_search.js' %}></script>
     <script>
         //eventy podczas których wywołujemy zapytanie ajax
         $("#search_value").on('input', post);
         $(document).ready(post);
-
+        let str_from_tag_system="";
         ///funkcja wysyłająca zapytania ajax do bazy w celu pobrania danych na podstawie wyszukiwania a nastepnie wywołująca rysowanie odpowiednich tabelek
-        function post(){
-            var tmp = $("#search_value").val();
-            console.log(tmp);
-            $.ajax({
-                url: {% url 'main_app:ajax-product-view' %},
-                cache: false,
-                type: "POST",
-                data: {"search_value": tmp},
-                success: function (data) {
+        function post() {
+            ajax_post("{% url 'main_app:ajax-product-view' %}", $("#search_value").val() + str_from_tag_system, function (data) {
                     console.log(data.product_name);
                     write_main_page_product("product_table", data);
-                },
-
-
-                beforeSend: function (xhr, settings) {
-                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                        // Only send the token to relative URLs i.e. locally.
-                        xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
-                    }
-                }
-            });
+                });
         }
     </script>
 

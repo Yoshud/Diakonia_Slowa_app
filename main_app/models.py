@@ -58,6 +58,8 @@ class Product_base(models.Model):
     def is_in_stock(self):
         return (self.quantity > 0)
 
+    def sorted_by_date_order_set(self):
+        return self.product_order_base_set.order_by("order__date")
 
 class Order_base(models.Model):
     date = models.DateTimeField("data sprzedaży", default=timezone.now)
@@ -97,7 +99,6 @@ class Client_base(models.Model):
     class Meta:
         verbose_name = 'klient'
         verbose_name_plural = 'Klienci'
-
 
 class Debtor_base(models.Model):
     if_settle = models.BooleanField("Czy uregulowane", default=False)

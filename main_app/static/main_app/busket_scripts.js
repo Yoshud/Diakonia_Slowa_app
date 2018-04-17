@@ -64,7 +64,7 @@ function write_busket_table(table_ID = "busket_table", data = basket.diction) {
         let quantity_cell_ref = newcell(data["quantity"][it], newRow);
 
 
-        let cell = newcell((data["quantity"][it] * data["price"][it]) + "zł", newRow);
+        let cell = newcell(float_string_decimal_places(data["quantity"][it] * data["price"][it]) + "zł", newRow);
         cell.setAttribute("id", "basket_sum_" + data["id"][it]);
 
         cell = newRow.insertCell();
@@ -164,18 +164,18 @@ function write_order_page_product_table(table_ID = "product_table") {
     console.log(data_obj);
     let data = data_obj.data;
     console.log(data);
-    let flag;
+    //let flag;
     if (data !== undefined) {
         let table_ref = document.getElementById(table_ID);
         t_delete(table_ref, 1, table_ref.rows.length);
         if ((data.product_name.length < 1)) {
-            if (flag === true) {
+            if (alert_flag === true) {
                 alert("Brak produktu o takiej nazwie");
-                flag = false;
+                alert_flag = false;
             }
         }
         else {
-            flag = true;
+            alert_flag = true;
             for (it in data.product_name) {
                 if ((basket.diction["id"].indexOf(data.pk[it])) === -1) {
                     //console.log(basket.diction["id"].indexOf(data.pk[it]), basket.diction["id"], data.pk[it]);

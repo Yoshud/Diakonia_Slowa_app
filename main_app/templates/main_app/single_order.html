@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block main_table_block %}
-    <table class="text_table left_table main_page_table">
+    <table class="text_table left_table main_page_table" style="height: auto">
         <tr>
             <th style="width: 30%">Nazwa produktu</th>
             <th style="width: 10%">Ilość</th>
@@ -41,15 +41,15 @@
     </table>
 {% endblock %}
 
-
-{% block java_scripts_block %}
-    <script>
-        function to_main() {
-            window.open("{% url 'main_app:main_page' %}", "_self")
-        }
-
-        function write_sum(price, quantity) {
-            return price * quantity + "zł"
-        }
-    </script>
-{% endblock %}
+{##}
+{#{% block java_scripts_block %}#}
+{#    <script>#}
+{#        function to_main() {#}
+{#            window.open("{% url 'main_app:main_page' %}", "_self")#}
+{#        }#}
+{##}
+{#        function write_sum(price, quantity) {#}
+{#            return price * quantity + "zł"#}
+{#        }#}
+{#    </script>#}
+{#{% endblock %}#}
