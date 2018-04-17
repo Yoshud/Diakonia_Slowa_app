@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+﻿from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Product_base, Order_base, Product_order_base, Debtor_base, Client_base, Tag_base
 from django.views.generic import View
