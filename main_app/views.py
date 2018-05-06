@@ -94,7 +94,7 @@ def sought_products_recur(products, string_split, lists=list()):  # potrzebna op
 def sought_products(string):
     string = string_from_begin_cat(string)
     products = Product_base.objects.all()
-    print(string)
+    # print(string)
     products = sought_products_recur(products, string.split(' '))
     products = products.order_by("product_name")
     return products_to_table(products)
@@ -149,7 +149,7 @@ def add_client(request):
     sname = request.POST.get('sname', ' ')
     email = request.POST.get('email', ' ')
     if (email != ' ' or fname != ' ' and sname != ' '):
-        print(fname, sname, email)
+        # print(fname, sname, email)
         try:
             client = Client_base.objects.get(firstname=fname, surname=sname, email=email)
         except:
@@ -173,7 +173,7 @@ def int_list_field_parse(request, name):
 
 
 def add_order_to_base(basket, client_id):
-    print(client_id)
+    # print(client_id)
     order_var = Order_base(date=timezone.now())
     order_var.save()
     for it, pk in enumerate(basket["id"]):
@@ -250,12 +250,12 @@ def single_product_diction_fun_to_tuple(product_order):
 def single_product_diction_fun(product_pk):
     product = get_object_or_404(Product_base, pk=product_pk)
     product_orders = product.product_order_base_set.all().order_by('-order__date')
-    print("reduce")
+    # print("reduce")
     price_sum = reduce(lambda price_sum, order: price_sum+ Decimal(order.quantity * order.price_in_moment), product_orders, Decimal(0))
-    print(price_sum)
+    # print(price_sum)
     function_returning_tuples_with_information_about_every_single_product_order = map(single_product_diction_fun_to_tuple, product_orders)
     tuples = list(function_returning_tuples_with_information_about_every_single_product_order)
-    print(tuples)
+    # print(tuples)
     return {
         "product": product,
         "tuples": tuples,
