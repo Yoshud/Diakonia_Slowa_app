@@ -148,7 +148,7 @@ def add_client(request):
     fname = request.POST.get('fname', ' ')
     sname = request.POST.get('sname', ' ')
     email = request.POST.get('email', ' ')
-    if (email != ' ' or fname != ' ' and sname != ' '):
+    if (email != ' ' and (fname != ' ' or sname != ' ')):
         print(fname, sname, email)
         try:
             client = Client_base.objects.get(firstname=fname, surname=sname, email=email)
@@ -262,6 +262,12 @@ def single_product_diction_fun(product_pk):
         "price_sum": price_sum,
         "sales_count": sales_count(product_pk)
     }
+
+class if_client_ready():
+    def __init__(self):
+        self.ready = False
+    def client_ready(self):
+        pass
 
 
 class AjaxProductView(View):
